@@ -60,6 +60,7 @@ namespace CarService.Website
                 //options.User.RequireUniqueEmail = true;
             });
 
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
             services.AddTransient<ICarServiceService, CarServiceService>();
             services.AddMvc();
         }

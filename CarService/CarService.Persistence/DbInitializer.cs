@@ -33,7 +33,7 @@ namespace CarService.Persistence
             Partner defaultUser = new Partner();
             defaultUser.Name="Anna";
             defaultUser.Address = "Fő utca 1.";
-            defaultUser.UserName = "anna";
+            defaultUser.PhoneNumber = "1234567";
             var result = _userManager.CreateAsync(defaultUser, "Password123").Result;
             _context.SaveChanges();
         }
