@@ -31,6 +31,7 @@ namespace CarService.Persistence
         private static void SeedUsers()
         {
             Partner defaultUser = new Partner();
+            defaultUser.UserName = "anna123";
             defaultUser.Name="Anna";
             defaultUser.Address = "Fő utca 1.";
             defaultUser.PhoneNumber = "1234567";

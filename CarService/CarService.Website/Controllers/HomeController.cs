@@ -10,9 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 namespace CarService.Website.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-       
+
+        public HomeController(ICarServiceService service) : base(service)
+        {
+
+        }
+
         public IActionResult Index()
         {
             return View();

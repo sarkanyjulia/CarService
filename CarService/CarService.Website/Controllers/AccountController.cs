@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 
 namespace CarService.Website.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
 
-        protected readonly ICarServiceService _service;
         private readonly UserManager<Partner> _userManager;
         private readonly SignInManager<Partner> _signInManager;
 
-        public AccountController(ICarServiceService service, UserManager<Partner> userManager, SignInManager<Partner> signInManager)
+        public AccountController(ICarServiceService service, UserManager<Partner> userManager, SignInManager<Partner> signInManager) : base(service)
         {
-            _service = service;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -39,17 +37,20 @@ namespace CarService.Website.Controllers
         public async Task<IActionResult> Login(LoginViewModel user)
         {
             if (!ModelState.IsValid)
+            { 
                 return View("Login", user);
+            }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);
             if (!result.Succeeded)
             {               
                 ModelState.AddModelError("", "Hibás felhasználónév, vagy jelszó.");
                 return View("Login", user);
-            }                
+            }
             return RedirectToAction("Index", "Home"); 
         }
 
+       
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

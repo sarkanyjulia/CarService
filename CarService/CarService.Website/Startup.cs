@@ -63,6 +63,14 @@ namespace CarService.Website
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
             services.AddTransient<ICarServiceService, CarServiceService>();
             services.AddMvc();
+
+            // Munkamenetkezelés beállítása
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(15); // max. 15 percig él a munkamenet
+                options.Cookie.HttpOnly = true; // kliens oldali szkriptek ne férjenek hozzá a sütihez 
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +86,8 @@ namespace CarService.Website
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
