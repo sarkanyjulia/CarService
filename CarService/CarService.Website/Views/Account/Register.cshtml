@@ -1,0 +1,98 @@
+﻿@using CarService.Website.Models;
+
+@{
+    ViewData["Title"] = "Regisztráció";
+}
+
+@model RegistrationViewModel
+<form asp-controller="Account" asp-action="Register">
+
+    <table>
+        <tr>
+            <td colspan="3">
+                <div class="failureNotification">@Html.ValidationSummary(true, "A regisztráció sikertelen!")</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="contentHead">
+                    Személyes adatok:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="120">
+                Név:
+            </td>
+            <td class="failureNotification" colspan="2">
+                <input asp-for="Name" size="40" />
+                <span asp-validation-for="Name"></span>
+            </td>
+
+        </tr>
+        <tr>
+            <td width="120">
+                Számlázási cím:
+            </td>
+            <td class="failureNotification" colspan="2">
+                <input asp-for="Address" size="40" />
+                <span asp-validation-for="Address"></span>
+            </td>
+        </tr>
+        <tr>
+            <td width="120">
+                Telefonszám:
+            </td>
+            <td class="failureNotification" colspan="2">
+                <input asp-for="PhoneNumber" size="40" />
+                <span asp-validation-for="PhoneNumber"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="contentHead">
+                    Bejelentkezési adatok:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="150" colspan="2">
+                Felhasználónév:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="UserName" />
+                <span asp-validation-for="UserName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td width="150" colspan="2">
+                Jelszó:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </td>
+        </tr>
+        <tr>
+            <td width="150" colspan="2">
+                Jelszó megismétlése:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="ConfirmPassword" />
+                <span asp-validation-for="ConfirmPassword"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" height="70">
+                <br />A felhasználónév és a jelszó minimum 5, maximum 40 karakter hosszú lehet. Csak betűt, számot és kötőjelet tartalmathat.<br /><br />
+                <input type="submit" value="Regisztráció" class="button" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+@section Scripts
+    {
+    @* jQuery Validation használata a kliens oldali validációra *@
+    @{ Html.RenderPartial("_ValidationScriptsPartial"); }
+}
