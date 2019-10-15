@@ -23,6 +23,11 @@ namespace CarService.Website.Controllers
             return View();
         }
 
+        public IActionResult ResetDate()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
