@@ -3,13 +3,14 @@
 }
 @model HomeViewModel
 
-<form asp-controller="Home" asp-action="ResetDate">
-    <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
-    <input asp-for="Date" />
-    <span asp-validation-for="Date"></span>
-    <input type="submit" value="Elküld" class="button" />
-</form>
-
+<div>
+    <form asp-controller="Home" asp-action="ResetDate">
+        <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+        <input asp-for="Date" />
+        <span asp-validation-for="Date"></span>
+        <input type="submit" value="Elküld" class="button" />
+    </form>
+</div>
 <div>
     <table>
         <thead>

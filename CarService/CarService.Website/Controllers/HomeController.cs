@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CarService.Website.Models;
 using Microsoft.AspNetCore.Authorization;
+using CarService.Persistence;
 
 namespace CarService.Website.Controllers
 {
@@ -20,7 +21,14 @@ namespace CarService.Website.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            HomeViewModel model = new HomeViewModel();
+            model.Date = DateTime.Now.Date;
+            foreach (Mechanic m in _service.Mechanics)
+            {
+                model.Mechanics.Add(m.Name);
+            }
+            
+            return View("Index", model);
         }
 
         public IActionResult ResetDate()
