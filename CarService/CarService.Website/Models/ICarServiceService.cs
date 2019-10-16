@@ -9,5 +9,7 @@ namespace CarService.Website.Models
     public interface ICarServiceService
     {
         IEnumerable<Mechanic> Mechanics { get; }
+
+        IEnumerable<Reservation> FindReservations(DateTime date);
     }
 }

@@ -15,41 +15,40 @@
     <table>
         <thead>
             <tr>
-                <td>
-                    Dátum
-                </td>
-                <td>
-                    Szerelő1
-                </td>
-                <td>
-                    Szerelő2
-                </td>
+                <th>
+                </th>
+                @foreach (String name in Model.Mechanics)
+                {
+                    <th>
+                        @name
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th>9-10</th>
+                <th>9-10h</th>
             </tr>
             <tr>
-                <th>10-11</th>
+                <th>10-11h</th>
             </tr>
             <tr>
-                <th>11-12</th>
+                <th>11-12h</th>
             </tr>
             <tr>
-                <th>12-13</th>
+                <th>12-13h</th>
             </tr>
             <tr>
-                <th>13-14</th>
+                <th>13-14h</th>
             </tr>
             <tr>
-                <th>14-15</th>
+                <th>14-15h</th>
             </tr>
             <tr>
-                <th>15-16</th>
+                <th>15-16h</th>
             </tr>
             <tr>
-                <th>16-17</th>
+                <th>16-17h</th>
             </tr>
         </tbody>
     </table>

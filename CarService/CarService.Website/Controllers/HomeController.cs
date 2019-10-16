@@ -21,19 +21,37 @@ namespace CarService.Website.Controllers
 
         public IActionResult Index()
         {
-            HomeViewModel model = new HomeViewModel();
-            model.Date = DateTime.Now.Date;
-            foreach (Mechanic m in _service.Mechanics)
-            {
-                model.Mechanics.Add(m.Name);
-            }
-            
+            HomeViewModel model = BuildHomeViewModel(DateTime.Now.Date);
             return View("Index", model);
         }
 
-        public IActionResult ResetDate()
+        private HomeViewModel BuildHomeViewModel(DateTime date)
         {
-            return View();
+            HomeViewModel model = new HomeViewModel();
+            model.Date = date;
+            model.Mechanics = _service.Mechanics.Select(m => m.Name).ToList();
+            List<Reservation> reservations = _service.FindReservations(model.Date).ToList();
+            for (int i=0; i<8; ++i)
+            {
+                foreach(String m in model.Mechanics)
+                {
+                    model.Timeslots[i].Add("");
+                }
+            }
+            return model;
+        }
+
+        public IActionResult ResetDate(DateTime? date)
+        {
+            if (date.HasValue)
+            {
+                HomeViewModel model = BuildHomeViewModel(date.Value);
+                return View("Index", model);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         public IActionResult About()
