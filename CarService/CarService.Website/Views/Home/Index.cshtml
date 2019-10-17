@@ -4,15 +4,20 @@
 @model HomeViewModel
 
 <div>
-    <form asp-controller="Home" asp-action="ResetDate">
-        <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
-        <input asp-for="Date" />
-        <span asp-validation-for="Date"></span>
-        <input type="submit" value="Elküld" class="button" />
+    <form asp-controller="Home" asp-action="ResetDate" class="form-inline">
+        <div class="form-group">
+            <label>Adja meg a kívánt dátumot:</label>
+        </div>
+        <div class="form-group">
+            <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+            <input asp-for="Date" />
+            <span asp-validation-for="Date"></span>
+        </div>
+        <input type="submit" value="Elküld" class="btn btn-primary" />
     </form>
 </div>
 <div>
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>
