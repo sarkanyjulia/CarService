@@ -3,10 +3,11 @@
 }
 @model HomeViewModel
 
+<h1>Időpontfoglalás</h1>
 <div>
     <form asp-controller="Home" asp-action="ResetDate" class="form-inline">
         <div class="form-group">
-            <label>Adja meg a kívánt dátumot:</label>
+            <label>Adja meg a kívánt dátumot! </label>
         </div>
         <div class="form-group">
             <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
@@ -18,6 +19,7 @@
 </div>
 <div>
     <table class="table table-bordered">
+        <caption>Időpontok a kiválasztott napon:</caption>
         <thead>
             <tr>
                 <th width="100">
@@ -38,7 +40,7 @@
                     <th>@Model.RowHeaders[i]</th>
                     @for (int j=0; j<Model.Mechanics.Count; ++j)
                     {
-                    
+
                         @switch (Model.Timeslots[i][j].Status)
                         {
                             case TimeslotStatus.BOOKED:
@@ -52,8 +54,10 @@
                                 </td>
                                 break;
                             case TimeslotStatus.FREE:
-                                <td class="timeslot-free">
-                                    <a asp-action="Book">Szabad</a>
+                                <td class="timeslot-free">                                  
+                                    <a asp-controller="Appointment" asp-action="NewAppointment" asp-route-start="@Model.Timeslots[i][j].Start" asp-route-mechanicId="@Model.Timeslots[i][j].MechanicId" asp-route-mechanicName="@Model.Timeslots[i][j].MechanicName">
+                                        Szabad
+                                    </a>
                                 </td>
                                 break;
                             default:

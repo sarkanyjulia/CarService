@@ -65,7 +65,7 @@ namespace CarService.Website.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel user)
+        public async Task<IActionResult> Register(RegistrationViewModel user)
         {
             // végrehajtjuk az ellenőrzéseket
             if (!ModelState.IsValid)

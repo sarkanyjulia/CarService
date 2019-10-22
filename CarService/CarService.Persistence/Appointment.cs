@@ -17,6 +17,7 @@ namespace CarService.Persistence
         [MaxLength(50)]
         public String WorkType { get; set; }
 
+        [MaxLength(300)]
         public String Note { get; set; }
 
         [Required]

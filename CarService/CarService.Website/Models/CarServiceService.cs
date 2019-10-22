@@ -27,9 +27,21 @@ namespace CarService.Website.Models
             throw new NotImplementedException();
         }
 
-        public Appointment Reservation(int? id)
+        public Appointment GetAppointment(int? id)
         {
             throw new NotImplementedException();
+        }
+
+        public Boolean SaveAppointment(Appointment newAppointment)
+        {
+            _context.Appointments.Add(newAppointment);
+            try {               
+                _context.SaveChanges();
+            } catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

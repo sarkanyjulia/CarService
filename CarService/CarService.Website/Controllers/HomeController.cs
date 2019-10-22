@@ -47,7 +47,7 @@ namespace CarService.Website.Controllers
                 {
                     DateTime start = baseTime.AddHours(i);
                     TimeslotViewModel item = new TimeslotViewModel(start, m.Id, m.Name);                    
-                    if (start<DateTime.Now)
+                    if (start<DateTime.Now || IsHoliday(start))
                     {
                         item.Status = TimeslotStatus.DISABLED;
                     }
@@ -70,6 +70,13 @@ namespace CarService.Website.Controllers
             }
            
             return model;
+        }
+
+        private bool IsHoliday(DateTime start)
+        {
+            if (start.DayOfWeek.Equals(DayOfWeek.Saturday)) return true;
+            if (start.DayOfWeek.Equals(DayOfWeek.Sunday)) return true;
+            return false;
         }
 
         public IActionResult ResetDate(DateTime? date)

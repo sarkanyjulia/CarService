@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Foglalás";
+}
+
+@model AppointmentViewModel
+
+<h2>Foglalás részletei</h2>
+
+<form asp-controller="Appointment" asp-action="@Model.Action">
+    <div>
+        Dátum: @Model.Start.ToShortDateString()
+    </div>
+    <div>
+        Időpont: @Model.Start.ToShortTimeString() - @Model.Start.AddHours(1).ToShortTimeString()
+    </div>
+    <div>
+        Szerelő: @Model.MechanicName
+    </div>
+</form>
+

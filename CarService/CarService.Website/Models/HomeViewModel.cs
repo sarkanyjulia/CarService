@@ -34,14 +34,14 @@ namespace CarService.Website.Models
     {
         public int Id { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime Start { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime Start { get; }
 
         public TimeslotStatus Status { get; set;}
     
-        public int MechanicId { get; set; }
+        public int MechanicId { get; }
 
-        public String MechanicName { get; set; }
+        public String MechanicName { get; }
 
         public TimeslotViewModel(DateTime start, int mechanicId, String mechanicName)
         {

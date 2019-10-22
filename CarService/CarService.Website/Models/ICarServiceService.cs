@@ -14,8 +14,7 @@ namespace CarService.Website.Models
 
         Mechanic GetMechanic(int? id);
 
-        Appointment Reservation(int? id);
-
-
+        Appointment GetAppointment(int? id);
+        Boolean SaveAppointment(Appointment newAppointment);
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarService.Website.Models
 {
-    public class RegisterViewModel
+    public class RegistrationViewModel
     {
         [Required(ErrorMessage = "A felhasználónév megadása kötelező.")]
         [RegularExpression("^[A-Za-z0-9_-]{5,40}$", ErrorMessage = "A felhasználónév formátuma, vagy hossza nem megfelelő.")]
