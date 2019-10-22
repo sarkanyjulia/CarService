@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CarService.Persistence
 {
-    public class Reservation
+    public class Appointment
     {
         [Key]
         public int Id { get; set; }

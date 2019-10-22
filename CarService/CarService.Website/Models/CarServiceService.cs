@@ -15,12 +15,21 @@ namespace CarService.Website.Models
 
         public IEnumerable<Mechanic> Mechanics => _context.Mechanics.OrderBy(m =>m.Id);
 
-        public IEnumerable<Reservation> FindReservations(DateTime date)
+        public IEnumerable<Appointment> FindAppointments(DateTime date)
         {
-            return _context.Reservations
-                .Where(reservation => reservation.Time.Date.Equals(date))
-                .OrderBy(reservation => reservation.Mechanic.Id)
+            return _context.Appointments
+                .Where(reservation => reservation.Time.Date.Equals(date))                
                 .OrderBy(reservation => reservation.Time);
+        }
+
+        public Mechanic GetMechanic(int? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Appointment Reservation(int? id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CarService.Persistence
         [MaxLength(200)]
         public String Address { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Appointment> Appointment { get; set; }
 
         
     }

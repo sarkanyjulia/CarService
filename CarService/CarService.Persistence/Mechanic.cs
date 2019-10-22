@@ -12,6 +12,6 @@ namespace CarService.Persistence
 
         public String Name { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }

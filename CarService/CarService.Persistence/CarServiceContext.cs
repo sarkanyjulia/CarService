@@ -18,6 +18,6 @@ namespace CarService.Persistence
         }
 
         public DbSet<Mechanic> Mechanics { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
     }
 }

@@ -10,6 +10,12 @@ namespace CarService.Website.Models
     {
         IEnumerable<Mechanic> Mechanics { get; }
 
-        IEnumerable<Reservation> FindReservations(DateTime date);
+        IEnumerable<Appointment> FindAppointments(DateTime date);
+
+        Mechanic GetMechanic(int? id);
+
+        Appointment Reservation(int? id);
+
+
     }
 }

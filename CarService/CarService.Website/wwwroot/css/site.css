@@ -33,3 +33,19 @@
         display: none;
     }
 }
+
+.timeslot-booked {
+    background-color: lightsalmon;
+}
+
+.timeslot-free {
+    background-color: lightgreen;
+}
+
+.timeslot-own {
+    background-color: lightyellow;
+}
+
+.timeslot-disabled {
+    background-color: lightgray;
+}

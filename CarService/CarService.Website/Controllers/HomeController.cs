@@ -28,16 +28,47 @@ namespace CarService.Website.Controllers
         private HomeViewModel BuildHomeViewModel(DateTime date)
         {
             HomeViewModel model = new HomeViewModel();
-            model.Date = date;
-            model.Mechanics = _service.Mechanics.Select(m => m.Name).ToList();
-            List<Reservation> reservations = _service.FindReservations(model.Date).ToList();
+            DateTime baseTime = new DateTime(date.Year, date.Month, date.Day, 9, 0, 0);           
+            List<Appointment> appointments = _service.FindAppointments(date).ToList();
+            List<Mechanic> mechanics = _service.Mechanics.ToList();
+
+            Dictionary<int, int> columns = new Dictionary<int, int>();
+            foreach (Mechanic m in mechanics)
+            {
+                columns.Add(m.Id, mechanics.IndexOf(m));
+            }
+
+                model.Date = date;
+            model.Mechanics = mechanics.Select(m => m.Name).ToList();
+            
             for (int i=0; i<8; ++i)
             {
-                foreach(String m in model.Mechanics)
+                foreach(Mechanic m in mechanics)
                 {
-                    model.Timeslots[i].Add("");
+                    DateTime start = baseTime.AddHours(i);
+                    TimeslotViewModel item = new TimeslotViewModel(start, m.Id, m.Name);                    
+                    if (start<DateTime.Now)
+                    {
+                        item.Status = TimeslotStatus.DISABLED;
+                    }
+                    model.Timeslots[i].Add(item);
                 }
             }
+
+            foreach (Appointment r in appointments)
+            {
+                TimeslotStatus status;
+                if (r.Partner.Equals(User.Identity))
+                {
+                    status = TimeslotStatus.OWN;
+                }
+                else
+                {
+                    status = TimeslotStatus.BOOKED;
+                }
+                model.Timeslots[r.Time.Hour - 9][columns.GetValueOrDefault(r.Mechanic.Id)].Status = status;
+            }
+           
             return model;
         }
 
@@ -52,6 +83,11 @@ namespace CarService.Website.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        public IActionResult Book()
+        {
+            return View();
         }
 
         public IActionResult About()
