@@ -30,6 +30,7 @@ namespace CarService.Website.Controllers
         {
             AppointmentViewModel model = new AppointmentViewModel(start, mechanicId, mechanicName);
             model.Action = "Create";
+            model.SubmitButtonText = "Mentés";
             return View("Appointment", model);
         }
 
@@ -41,7 +42,7 @@ namespace CarService.Website.Controllers
             Appointment newAppointment = new Appointment
             {
                 Time = model.Start,
-                WorkType = model.WorkType,
+                WorkType = nameof(model.WorkType),
                 Note = model.Note,
                 Mechanic = _service.GetMechanic(model.MechanicId),
                 Partner = await _userManager.FindByNameAsync(User.Identity.Name)

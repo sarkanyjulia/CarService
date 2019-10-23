@@ -10,7 +10,7 @@ namespace CarService.Website.Models
     {
         [Required]
         [MaxLength(50)]
-        public String WorkType { get; set; }
+        public WorkType WorkType { get; set; }
 
         [MaxLength(300)]
         public String Note { get; set; }
@@ -18,5 +18,17 @@ namespace CarService.Website.Models
         public AppointmentViewModel(DateTime start, int mechanicId, String mechanicName) : base(start, mechanicId, mechanicName) { }
 
         public String Action { get; set; }
+
+        public String SubmitButtonText { get; set; }
+    }
+
+    public enum WorkType
+    {
+        [Display(Name ="Kötelező szervíz")]
+        Maintenance,
+        [Display(Name = "Műszaki vizsga")]
+        Inspection,
+        [Display(Name = "Meghibásodás")]
+        Failure
     }
 }

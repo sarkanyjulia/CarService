@@ -9,13 +9,24 @@
 
 <form asp-controller="Appointment" asp-action="@Model.Action">
     <div>
-        Dátum: @Model.Start.ToShortDateString()
+        <label>Dátum:</label> @Model.Start.ToShortDateString()
     </div>
     <div>
-        Időpont: @Model.Start.ToShortTimeString() - @Model.Start.AddHours(1).ToShortTimeString()
+        <label>Időpont:</label> @Model.Start.ToShortTimeString() - @Model.Start.AddHours(1).ToShortTimeString()
     </div>
     <div>
-        Szerelő: @Model.MechanicName
+        <label>Szerelő:</label> @Model.MechanicName
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.WorkType">Munka típusa:</label>
+        <select asp-for="@Model.WorkType" asp-items="Html.GetEnumSelectList<WorkType>()"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Note">Megjegyzés:</label>
+        <textarea asp-for="@Model.Note"></textarea>
+    </div>
+    <div>
+        <input type="submit" value="@Model.SubmitButtonText" class="button" />
     </div>
 </form>
 
