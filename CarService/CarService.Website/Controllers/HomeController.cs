@@ -58,7 +58,7 @@ namespace CarService.Website.Controllers
             foreach (Appointment r in appointments)
             {
                 TimeslotStatus status;
-                if (r.Partner.Equals(User.Identity))
+                if (r.Partner.UserName.Equals(User.Identity.Name))
                 {
                     status = TimeslotStatus.OWN;
                 }

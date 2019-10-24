@@ -6,16 +6,27 @@ using System.Threading.Tasks;
 
 namespace CarService.Website.Models
 {
-    public class AppointmentViewModel : TimeslotViewModel
+    public class AppointmentViewModel
     {
+        public int Id { get; set; }
+
+        
+        [DataType(DataType.DateTime)]
+        public DateTime Start { get; set; }
+       
+        
+
         [Required]
-        [MaxLength(50)]
+        public int MechanicId { get; set; }
+
+        [Required]
+        public String MechanicName { get; set; }
+
+        [Required]
         public WorkType WorkType { get; set; }
 
         [MaxLength(300)]
         public String Note { get; set; }
-
-        public AppointmentViewModel(DateTime start, int mechanicId, String mechanicName) : base(start, mechanicId, mechanicName) { }
 
         public String Action { get; set; }
 

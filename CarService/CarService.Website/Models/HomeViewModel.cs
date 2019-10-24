@@ -43,6 +43,11 @@ namespace CarService.Website.Models
 
         public String MechanicName { get; }
 
+        public TimeslotViewModel()
+        {
+            Status = TimeslotStatus.FREE;
+        }
+
         public TimeslotViewModel(DateTime start, int mechanicId, String mechanicName)
         {
             Start = start;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarService.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 namespace CarService.Website.Models
 {
     public class CarServiceService : ICarServiceService
@@ -18,14 +20,28 @@ namespace CarService.Website.Models
         public IEnumerable<Appointment> FindAppointments(DateTime date)
         {
             return _context.Appointments
-                .Where(reservation => reservation.Time.Date.Equals(date))                
-                .OrderBy(reservation => reservation.Time);
+                .Include(appointment => appointment.Partner)
+                .Where(appointment => appointment.Time.Date.Equals(date))                
+                .OrderBy(appointment => appointment.Time);
         }
 
         public Mechanic GetMechanic(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                return null;
+            Mechanic mechanic = _context.Mechanics.FirstOrDefault(m => m.Id==id);
+            return mechanic;
         }
+
+
+        public Mechanic GetMechanic(String mechanicName)
+        {
+            if (mechanicName.Equals(""))
+                return null;
+            Mechanic mechanic = _context.Mechanics.FirstOrDefault(m => m.Name == mechanicName);
+            return mechanic;
+        }
+
 
         public Appointment GetAppointment(int? id)
         {
@@ -39,6 +55,7 @@ namespace CarService.Website.Models
                 _context.SaveChanges();
             } catch (Exception)
             {
+                Console.WriteLine("SAVE FAILED");
                 return false;
             }
             return true;

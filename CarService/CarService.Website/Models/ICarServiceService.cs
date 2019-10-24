@@ -14,6 +14,8 @@ namespace CarService.Website.Models
 
         Mechanic GetMechanic(int? id);
 
+        Mechanic GetMechanic(String mechanicName);
+
         Appointment GetAppointment(int? id);
         Boolean SaveAppointment(Appointment newAppointment);
     }
