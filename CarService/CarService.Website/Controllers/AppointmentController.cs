@@ -20,27 +20,29 @@ namespace CarService.Website.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        public IActionResult NewAppointment(DateTime? start, int? mechanicId, string mechanicName)
         {
-            return View();
-        }
-
-        public IActionResult NewAppointment(DateTime start, int mechanicId, string mechanicName)
-        {
-            AppointmentViewModel model = new AppointmentViewModel
+            if (start == null || mechanicId == null || String.IsNullOrEmpty(mechanicName))
             {
-                Start = start,
-                MechanicId = mechanicId,
-                MechanicName = mechanicName,                
-            };
-            return View("NewAppointment", model);
+                return RedirectToAction("Index", "Home");
+            }
+            else {
+                AppointmentViewModel model = new AppointmentViewModel
+                {
+                    Start = start.Value,
+                    MechanicId = mechanicId.Value,
+                    MechanicName = mechanicName
+                };
+                return View("NewAppointment", model);
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AppointmentViewModel model)
         {
+
+
 
             Appointment newAppointment = new Appointment
             {

@@ -71,7 +71,7 @@ namespace CarService.Website.Controllers
                 foreach (Mechanic m in mechanics)
                 {
                     TimeslotViewModel timeslot = model.Timeslots[i][columns.GetValueOrDefault(m.Id)];
-                    if (timeslot.Start < DateTime.Now || IsHoliday(timeslot.Start))
+                    if (timeslot.Start < DateTime.Now || HolidayChecker.IsHoliday(timeslot.Start))
                     {
                         timeslot.Status = TimeslotStatus.DISABLED;
                     }
@@ -80,13 +80,6 @@ namespace CarService.Website.Controllers
             }
 
             return model;
-        }
-
-        private bool IsHoliday(DateTime start)
-        {
-            if (start.DayOfWeek.Equals(DayOfWeek.Saturday)) return true;
-            if (start.DayOfWeek.Equals(DayOfWeek.Sunday)) return true;
-            return false;
         }
 
         public IActionResult ResetDate(DateTime? date)

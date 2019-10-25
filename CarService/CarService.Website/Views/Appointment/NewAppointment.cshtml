@@ -23,10 +23,12 @@
     <div class=" form-group">
         <label asp-for="@Model.WorkType">Munka típusa:</label>
         <select asp-for="@Model.WorkType" asp-items="Html.GetEnumSelectList<WorkType>()"></select>
+        <span asp-validation-for="@Model.WorkType"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.Note">Megjegyzés:</label>
         <textarea asp-for="@Model.Note"></textarea>
+        <span asp-validation-for="@Model.Note"></span>
     </div>
     <div>
         <input type="submit" value="Mentés" class="btn btn-primary" />

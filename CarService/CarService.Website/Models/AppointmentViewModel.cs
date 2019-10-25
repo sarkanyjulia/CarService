@@ -26,7 +26,7 @@ namespace CarService.Website.Models
         [Required]
         public WorkType WorkType { get; set; }
 
-        [MaxLength(300)]
+        [StringLength(300, ErrorMessage = "A megjegyzés maximum 300 karakter lehet.")]
         public String Note { get; set; }
     }
 
