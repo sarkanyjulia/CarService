@@ -18,5 +18,6 @@ namespace CarService.Website.Models
 
         Appointment GetAppointment(int? id);
         Boolean SaveAppointment(Appointment newAppointment);
+        Boolean DeleteAppointment(int id);
     }
 }

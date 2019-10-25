@@ -54,8 +54,20 @@ namespace CarService.Website.Models
             try {               
                 _context.SaveChanges();
             } catch (Exception)
+            {                
+                return false;
+            }
+            return true;
+        }
+
+        public Boolean DeleteAppointment(int id)
+        {
+            try { 
+                Appointment toDelete = _context.Appointments.Find(id);
+                _context.Remove(toDelete);
+                _context.SaveChanges();
+            } catch (Exception)
             {
-                Console.WriteLine("SAVE FAILED");
                 return false;
             }
             return true;

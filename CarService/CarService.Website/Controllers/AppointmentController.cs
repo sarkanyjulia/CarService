@@ -32,11 +32,9 @@ namespace CarService.Website.Controllers
             {
                 Start = start,
                 MechanicId = mechanicId,
-                MechanicName = mechanicName,
-                Action = "Create",
-                SubmitButtonText = "Mentés"
+                MechanicName = mechanicName,                
             };
-            return View("Appointment", model);
+            return View("NewAppointment", model);
         }
 
         [HttpPost]
@@ -49,16 +47,34 @@ namespace CarService.Website.Controllers
                 Time = model.Start,
                 WorkType = model.WorkType.ToString(),
                 Note = model.Note,
-                Mechanic = _service.GetMechanic(model.MechanicName),
+                Mechanic = _service.GetMechanic(model.MechanicId),
                 Partner = await _userManager.FindByNameAsync(User.Identity.Name)
             };
             _service.SaveAppointment(newAppointment);
             return RedirectToAction("ResetDate", "Home", model.Start);
         }
 
-        public IActionResult Cancel(AppointmentViewModel model)
+        public IActionResult Details(int id, DateTime start, int mechanicId, string mechanicName)
         {
-            return RedirectToAction("ResetDate", "Home", model.Start);
+            AppointmentViewModel model = new AppointmentViewModel
+            {
+                Id = id,
+                Start = start,
+                MechanicId = mechanicId,
+                MechanicName = mechanicName,
+            };
+            return View("AppointmentDetails", model);
+        }
+
+        public IActionResult Cancel(DateTime start)
+        {
+            return RedirectToAction("ResetDate", "Home", start);
+        }
+
+        public IActionResult Delete(int id, DateTime start)
+        {
+            _service.DeleteAppointment(id);
+            return RedirectToAction("ResetDate", "Home", start);
         }
     }
 }

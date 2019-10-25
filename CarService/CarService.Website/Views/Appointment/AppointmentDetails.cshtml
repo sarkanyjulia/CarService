@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Foglalás";
+}
+
+@model AppointmentViewModel
+
+<h2>Foglalás részletei</h2>
+
+    <div class=" form-group">
+        <label>Dátum:</label>
+        @Model.Start.ToShortDateString()
+    </div>
+    <div class=" form-group">
+        <label>Időpont:</label>
+        @Model.Start.ToShortTimeString() - @Model.Start.AddHours(1).ToShortTimeString()
+    </div>
+    <div class=" form-group">
+        <label>Szerelő:</label>
+        @Model.MechanicName
+    </div>
+    <div class=" form-group">
+        <label>Munka típusa:</label>
+        @Model.WorkType
+    </div>
+    <div class="form-group">
+        <label>Megjegyzés:</label>
+        @Model.Note
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-action="Cancel" asp-route-start="@Model.Start">Vissza</a>
+        <a class="btn btn-primary" asp-action="Delete" asp-route-id="@Model.Id" asp-route-start="@Model.Start">Törlés</a>
+    </div>
+
+    
+

@@ -46,29 +46,39 @@ namespace CarService.Website.Controllers
                 foreach(Mechanic m in mechanics)
                 {
                     DateTime start = baseTime.AddHours(i);
-                    TimeslotViewModel item = new TimeslotViewModel(start, m.Id, m.Name);                    
-                    if (start<DateTime.Now || IsHoliday(start))
-                    {
-                        item.Status = TimeslotStatus.DISABLED;
-                    }
+                    TimeslotViewModel item = new TimeslotViewModel(start, m.Id, m.Name);                                        
                     model.Timeslots[i].Add(item);
                 }
             }
 
-            foreach (Appointment r in appointments)
+            foreach (Appointment appointment in appointments)
             {
                 TimeslotStatus status;
-                if (r.Partner.UserName.Equals(User.Identity.Name))
+                if (appointment.Partner.UserName.Equals(User.Identity.Name))
                 {
                     status = TimeslotStatus.OWN;
+                    model.Timeslots[appointment.Time.Hour - 9][columns.GetValueOrDefault(appointment.Mechanic.Id)].Id = appointment.Id;
                 }
                 else
                 {
                     status = TimeslotStatus.BOOKED;
                 }
-                model.Timeslots[r.Time.Hour - 9][columns.GetValueOrDefault(r.Mechanic.Id)].Status = status;
+                model.Timeslots[appointment.Time.Hour - 9][columns.GetValueOrDefault(appointment.Mechanic.Id)].Status = status;
             }
-           
+
+            for (int i = 0; i < 8; ++i)
+            {
+                foreach (Mechanic m in mechanics)
+                {
+                    TimeslotViewModel timeslot = model.Timeslots[i][columns.GetValueOrDefault(m.Id)];
+                    if (timeslot.Start < DateTime.Now || IsHoliday(timeslot.Start))
+                    {
+                        timeslot.Status = TimeslotStatus.DISABLED;
+                    }
+                  
+                }
+            }
+
             return model;
         }
 
