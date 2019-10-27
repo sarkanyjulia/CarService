@@ -20,9 +20,14 @@ namespace CarService.Website.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult NewAppointment(DateTime? start, int? mechanicId, string mechanicName)
-        {
-            if (start == null || mechanicId == null || String.IsNullOrEmpty(mechanicName))
+        public IActionResult NewAppointment(DateTime? start, int? mechanicId)
+        {            
+            if (start == null || mechanicId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Mechanic mechanic = _service.GetMechanic(mechanicId);
+            if (mechanic==null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -31,7 +36,7 @@ namespace CarService.Website.Controllers
                 {
                     Start = start.Value,
                     MechanicId = mechanicId.Value,
-                    MechanicName = mechanicName
+                    MechanicName = mechanic.Name
                 };
                 return View("NewAppointment", model);
             }
@@ -41,8 +46,27 @@ namespace CarService.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AppointmentViewModel model)
         {
+            AppointmentDateError result = _service.ValidateDate(model.Start, User.Identity.Name, model.MechanicId);
+            if (result != AppointmentDateError.None)
+            {
+                ErrorViewModel errorModel = new ErrorViewModel();
+                if (result == AppointmentDateError.InvalidDate)
+                {
+                    errorModel.ErrorMessage = "Sikertelen művelet - a megadott időpont nem foglalható.";
+                }
+                else if (result == AppointmentDateError.Conflicting)
+                {
+                    errorModel.ErrorMessage = "Sikertelen művelet - a megadott időpontra már létezik foglalás.";
+                }
+                else if (result == AppointmentDateError.ConflictingWithOwn)
+                {
+                    errorModel.ErrorMessage = "Sikertelen művelet - a megadott időpontra önnek már létezik foglalása.";
+                }
+                return View("Error", errorModel);
+            }
 
-
+            if (!ModelState.IsValid)
+                return View("NewAppointment", model);
 
             Appointment newAppointment = new Appointment
             {
@@ -56,14 +80,25 @@ namespace CarService.Website.Controllers
             return RedirectToAction("ResetDate", "Home", model.Start);
         }
 
-        public IActionResult Details(int id, DateTime start, int mechanicId, string mechanicName)
+        public IActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Appointment appointment = _service.GetAppointment(id);
+            if (appointment == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             AppointmentViewModel model = new AppointmentViewModel
             {
-                Id = id,
-                Start = start,
-                MechanicId = mechanicId,
-                MechanicName = mechanicName,
+                Id = appointment.Id,
+                Start = appointment.Time,
+                MechanicId = appointment.Mechanic.Id,
+                MechanicName = appointment.Mechanic.Name,
+                WorkType = (WorkType) Enum.Parse(typeof(WorkType), appointment.WorkType),
+                Note = appointment.Note
             };
             return View("AppointmentDetails", model);
         }
@@ -74,8 +109,14 @@ namespace CarService.Website.Controllers
         }
 
         public IActionResult Delete(int id, DateTime start)
-        {
-            _service.DeleteAppointment(id);
+        {            
+            Boolean success = _service.DeleteAppointment(id);
+            if (!success)
+            {
+                ErrorViewModel model = new ErrorViewModel();
+                model.ErrorMessage = "A foglalás törlése nem sikerült.";
+                return View("Error", model);
+            }
             return RedirectToAction("ResetDate", "Home", start);
         }
     }

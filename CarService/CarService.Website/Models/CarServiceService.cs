@@ -9,10 +9,12 @@ namespace CarService.Website.Models
     public class CarServiceService : ICarServiceService
     {
         private readonly CarServiceContext _context;
+        private readonly AppointmentDateValidator _validator;
 
         public CarServiceService(CarServiceContext context)
         {
             _context = context;
+            _validator = new AppointmentDateValidator(_context);
         }      
 
         public IEnumerable<Mechanic> Mechanics => _context.Mechanics.OrderBy(m =>m.Id);
@@ -45,13 +47,17 @@ namespace CarService.Website.Models
 
         public Appointment GetAppointment(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                return null;
+            Appointment appointment = _context.Appointments.Include(a => a.Mechanic).FirstOrDefault(a => a.Id == id);
+            return appointment;
         }
 
         public Boolean SaveAppointment(Appointment newAppointment)
         {
-            _context.Appointments.Add(newAppointment);
-            try {               
+            try
+            {
+                _context.Appointments.Add(newAppointment);                         
                 _context.SaveChanges();
             } catch (Exception)
             {                
@@ -64,6 +70,10 @@ namespace CarService.Website.Models
         {
             try { 
                 Appointment toDelete = _context.Appointments.Find(id);
+                if (toDelete.Time < DateTime.Now)
+                {
+                    return false;
+                }
                 _context.Remove(toDelete);
                 _context.SaveChanges();
             } catch (Exception)
@@ -71,6 +81,11 @@ namespace CarService.Website.Models
                 return false;
             }
             return true;
+        }
+
+        public AppointmentDateError ValidateDate(DateTime start, String username, int mechanicId)
+        {
+            return _validator.Validate(start, username, mechanicId);
         }
     }
 }

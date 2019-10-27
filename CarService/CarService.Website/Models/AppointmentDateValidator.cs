@@ -18,6 +18,7 @@ namespace CarService.Website.Models
         public AppointmentDateError Validate(DateTime start, String username, int mechanicId)
         {
             if (start < DateTime.Now) return AppointmentDateError.InvalidDate;
+            if (HolidayChecker.IsHoliday(start)) return AppointmentDateError.InvalidDate;
 
             IEnumerable<Appointment> appointments = _context.Appointments.Include(a => a.Partner).Include(a => a.Mechanic).Where(a => a.Time == start);
             Appointment own = appointments.Where(a => a.Partner.UserName.Equals(username)).FirstOrDefault();

@@ -41,8 +41,6 @@ namespace CarService.Website.Models
     
         public int MechanicId { get; }
 
-        public String MechanicName { get; }
-
         public TimeslotViewModel()
         {
             Status = TimeslotStatus.FREE;
@@ -51,8 +49,7 @@ namespace CarService.Website.Models
         public TimeslotViewModel(DateTime start, int mechanicId, String mechanicName)
         {
             Start = start;
-            MechanicId = mechanicId;
-            MechanicName = mechanicName;
+            MechanicId = mechanicId;            
             Status = TimeslotStatus.FREE;
         }
 

@@ -28,20 +28,21 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Szuper Szaki Autószervíz</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    @if(User.Identity.IsAuthenticated)
-                    {                   
-                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                    }
-                </ul>
-            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Időpontfoglalás</a></li>                       
+                        <li class="nav-item" id="logout">
+                            <a asp-controller="Account" asp-action="Logout">Kijelentkezés</a>
+                        </li>                      
+                    </ul>                    
+                    <div id="active-partner-name">Üdv, @ViewBag.CurrentPartnerName !</div>                   
+                </div>
+            }
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container body-content">       
         @RenderBody()
         <hr />
         <footer>

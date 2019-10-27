@@ -7,7 +7,7 @@
 <div>
     <form asp-controller="Home" asp-action="ResetDate" class="form-inline">
         <div class="form-group">
-            <label>Válasszon dátumot! </label>
+            <label>Válasszon dátumot! Foglalni csak jövőbeli, hétköznapra eső időpontot lehet. </label>
         </div>
         <div class="form-group">
             <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
@@ -50,14 +50,14 @@
                                 break;
                             case TimeslotStatus.OWN:
                                 <td class="timeslot-own">                                  
-                                    <a asp-controller="Appointment" asp-action="Details" asp-route-id="@Model.Timeslots[i][j].Id" asp-route-start="@Model.Timeslots[i][j].Start" asp-route-mechanicId="@Model.Timeslots[i][j].MechanicId" asp-route-mechanicName="@Model.Timeslots[i][j].MechanicName">
+                                    <a asp-controller="Appointment" asp-action="Details" asp-route-id="@Model.Timeslots[i][j].Id">
                                         Saját
                                     </a>
                                 </td>
                                 break;
                             case TimeslotStatus.FREE:
                                 <td class="timeslot-free">                                  
-                                    <a asp-controller="Appointment" asp-action="NewAppointment" asp-route-start="@Model.Timeslots[i][j].Start" asp-route-mechanicId="@Model.Timeslots[i][j].MechanicId" asp-route-mechanicName="@Model.Timeslots[i][j].MechanicName">
+                                    <a asp-controller="Appointment" asp-action="NewAppointment" asp-route-start="@Model.Timeslots[i][j].Start" asp-route-mechanicId="@Model.Timeslots[i][j].MechanicId">
                                         Szabad
                                     </a>
                                 </td>

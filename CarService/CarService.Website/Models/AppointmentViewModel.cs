@@ -27,7 +27,7 @@ namespace CarService.Website.Models
         public WorkType WorkType { get; set; }
 
         [StringLength(300, ErrorMessage = "A megjegyzés maximum 300 karakter lehet.")]
-        public String Note { get; set; }
+        public String Note { get; set; }    
     }
 
     public enum WorkType

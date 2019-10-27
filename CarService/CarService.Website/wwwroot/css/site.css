@@ -49,3 +49,12 @@
 .timeslot-disabled {
     background-color: lightgray;
 }
+
+#active-partner-name {
+    position: relative;
+    float: right;
+    top: 15px;
+    color: lightgray;
+}
+
+
