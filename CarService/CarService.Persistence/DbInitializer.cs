@@ -29,13 +29,35 @@ namespace CarService.Persistence
         }      
 
         private static void SeedUsers()
-        {
-            Partner defaultUser = new Partner();
-            defaultUser.UserName = "anna123";
-            defaultUser.Name="Anna";
-            defaultUser.Address = "Fő utca 1.";
-            defaultUser.PhoneNumber = "1234567";
-            var result = _userManager.CreateAsync(defaultUser, "Password123").Result;
+        {            
+            var defaultPartners = new Partner[]
+            {
+                new Partner
+                {
+                    UserName = "anna123",
+                    Name="Anna",
+                    Address = "Fő utca 1.",
+                    PhoneNumber = "1234567"
+                },
+                new Partner
+                {
+                    UserName = "peti123",
+                    Name="Peti",
+                    Address = "Fő utca 1.",
+                    PhoneNumber = "1234568"
+                },
+                new Partner
+                {
+                    UserName = "gergo123",
+                    Name="Gergő",
+                    Address = "Fő utca 1.",
+                    PhoneNumber = "1234569"
+                }
+            };            
+            foreach (Partner p in defaultPartners)
+            {
+                var result = _userManager.CreateAsync(p, "Password123").Result;
+            }            
             _context.SaveChanges();
         }
         private static void SeedMechanics()
@@ -44,11 +66,15 @@ namespace CarService.Persistence
             {
                 new Mechanic
                 {
-                    Name = "Peti",
+                    Name = "Első szerelő"
                 },
                 new Mechanic
                 {
-                    Name = "Gergő",
+                    Name = "Második szerelő",
+                },
+                new Mechanic
+                {
+                    Name = "Harmadik szerelő",
                 }
             };
             foreach (Mechanic m in defaultMechanics)

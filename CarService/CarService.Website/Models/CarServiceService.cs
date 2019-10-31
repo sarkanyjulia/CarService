@@ -35,16 +35,6 @@ namespace CarService.Website.Models
             return mechanic;
         }
 
-
-        public Mechanic GetMechanic(String mechanicName)
-        {
-            if (mechanicName.Equals(""))
-                return null;
-            Mechanic mechanic = _context.Mechanics.FirstOrDefault(m => m.Name == mechanicName);
-            return mechanic;
-        }
-
-
         public Appointment GetAppointment(int? id)
         {
             if (id == null)

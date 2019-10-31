@@ -12,13 +12,14 @@ namespace CarService.Website.Models
 
         IEnumerable<Appointment> FindAppointments(DateTime date);
 
-        Mechanic GetMechanic(int? id);
-
-        Mechanic GetMechanic(String mechanicName);
+        Mechanic GetMechanic(int? id);        
 
         Appointment GetAppointment(int? id);
+
         Boolean SaveAppointment(Appointment newAppointment);
+
         Boolean DeleteAppointment(int id);
+
         AppointmentDateError ValidateDate(DateTime start, String username, int mechanicId);
     }
 }
