@@ -10,6 +10,7 @@ namespace CarService.Website.Models
     {
         private readonly CarServiceContext _context;
         private readonly AppointmentDateValidator _validator;
+       
 
         public CarServiceService(CarServiceContext context)
         {
@@ -39,10 +40,10 @@ namespace CarService.Website.Models
         {
             if (id == null)
                 return null;
-            Appointment appointment = _context.Appointments.Include(a => a.Mechanic).FirstOrDefault(a => a.Id == id);
+            Appointment appointment = _context.Appointments.Include(a => a.Mechanic).Include(a => a.Partner).FirstOrDefault(a => a.Id == id);            
             return appointment;
         }
-
+        
         public Boolean SaveAppointment(Appointment newAppointment)
         {
             try
@@ -56,11 +57,15 @@ namespace CarService.Website.Models
             return true;
         }
 
-        public Boolean DeleteAppointment(int id)
+        public Boolean DeleteAppointment(int id, string userName)
         {
             try { 
-                Appointment toDelete = _context.Appointments.Find(id);
+                Appointment toDelete = _context.Appointments.Include(a => a.Partner).FirstOrDefault(a => a.Id == id);
                 if (toDelete.Time < DateTime.Now)
+                {
+                    return false;
+                }
+                if (!userName.Equals(toDelete.Partner.UserName))
                 {
                     return false;
                 }

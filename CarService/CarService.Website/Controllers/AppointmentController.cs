@@ -91,6 +91,10 @@ namespace CarService.Website.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            if (!appointment.Partner.UserName.Equals(User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             AppointmentViewModel model = new AppointmentViewModel
             {
                 Id = appointment.Id,
@@ -110,7 +114,7 @@ namespace CarService.Website.Controllers
 
         public IActionResult Delete(int id, DateTime start)
         {            
-            Boolean success = _service.DeleteAppointment(id);
+            Boolean success = _service.DeleteAppointment(id, User.Identity.Name);
             if (!success)
             {
                 ErrorViewModel model = new ErrorViewModel();

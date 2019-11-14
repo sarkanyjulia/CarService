@@ -18,7 +18,7 @@ namespace CarService.Website.Models
 
         Boolean SaveAppointment(Appointment newAppointment);
 
-        Boolean DeleteAppointment(int id);
+        Boolean DeleteAppointment(int id, string userName);
 
         AppointmentDateError ValidateDate(DateTime start, String username, int mechanicId);
     }
