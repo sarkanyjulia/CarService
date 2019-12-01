@@ -16,9 +16,7 @@ namespace CarService.Persistence
 
         public virtual Appointment Appointment { get; set; }
 
-        public List<WorkItem> Items { get; set; }
-
-        public bool Closed { get; set; }
+        public List<WorkItem> Items { get; set; }        
 
         public int FinalPrice { get; set; }
     }
