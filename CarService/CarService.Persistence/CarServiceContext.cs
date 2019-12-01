@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CarService.Persistence
 {
-    public class CarServiceContext : IdentityDbContext<Partner, IdentityRole<int>, int>
+    public class CarServiceContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
     {
         public CarServiceContext(DbContextOptions<CarServiceContext> options) : base(options)
         {
@@ -14,10 +14,20 @@ namespace CarService.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Partner>().ToTable("Partners");
-        }
+            builder.Entity<AppUser>().ToTable("Users");
+            builder.Entity<Appointment>(entity =>
+            {
+                entity.HasOne(e => e.Partner)
+                    .WithMany(u => u.PartnerAppointments)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
-        public DbSet<Mechanic> Mechanics { get; set; }
+                entity.HasOne(e => e.Mechanic)
+                   .WithMany(u => u.MechanicAppointments)
+                   .OnDelete(DeleteBehavior.ClientSetNull);                   
+            });
+
+        }
+        
         public DbSet<Appointment> Appointments { get; set; }
     }
 }

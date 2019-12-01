@@ -18,12 +18,12 @@ namespace CarService.Persistence
         public String WorkType { get; set; }
 
         [MaxLength(300)]
-        public String Note { get; set; }
+        public String Note { get; set; }    
 
         [Required]
-        public Partner Partner { get; set; }
+        public AppUser Partner { get; set; }
 
         [Required]
-        public Mechanic Mechanic { get; set; }
+        public AppUser Mechanic { get; set; }
     }
 }

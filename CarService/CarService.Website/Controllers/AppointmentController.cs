@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarService.Website.Controllers
-{
-    [Authorize]
+{    
+    [Authorize(Roles = "partner")]
     public class AppointmentController : BaseController
     {
-        private readonly UserManager<Partner> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AppointmentController(ICarServiceService service, UserManager<Partner> userManager) : base(service)
+        public AppointmentController(ICarServiceService service, UserManager<AppUser> userManager) : base(service)
         {
             _userManager = userManager;
         }
@@ -26,7 +26,7 @@ namespace CarService.Website.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            Mechanic mechanic = _service.GetMechanic(mechanicId);
+            AppUser mechanic = _service.GetMechanic(mechanicId);
             if (mechanic==null)
             {
                 return RedirectToAction("Index", "Home");

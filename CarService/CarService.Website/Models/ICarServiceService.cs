@@ -8,11 +8,11 @@ namespace CarService.Website.Models
 {
     public interface ICarServiceService
     {
-        IEnumerable<Mechanic> Mechanics { get; }
+        IEnumerable<AppUser> Mechanics { get; }
 
         IEnumerable<Appointment> FindAppointments(DateTime date);
 
-        Mechanic GetMechanic(int? id);        
+        AppUser GetMechanic(int? id);        
 
         Appointment GetAppointment(int? id);
 

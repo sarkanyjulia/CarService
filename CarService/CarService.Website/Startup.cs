@@ -37,7 +37,7 @@ namespace CarService.Website
                     break;
             }
 
-            services.AddIdentity<Partner, IdentityRole<int>>()
+            services.AddIdentity<AppUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<CarServiceContext>()
                 .AddDefaultTokenProviders();
 
@@ -98,8 +98,9 @@ namespace CarService.Website
             });
 
             var dbContext = serviceProvider.GetRequiredService<CarServiceContext>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<Partner>>();
-            DbInitializer.Initialize(app.ApplicationServices.GetRequiredService<CarServiceContext>(), userManager);
+            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+            DbInitializer.Initialize(app.ApplicationServices.GetRequiredService<CarServiceContext>(), userManager, roleManager);
         }
     }
 }

@@ -30,10 +30,10 @@ namespace CarService.Website.Controllers
             HomeViewModel model = new HomeViewModel();
             DateTime baseTime = new DateTime(date.Year, date.Month, date.Day, 9, 0, 0);           
             List<Appointment> appointments = _service.FindAppointments(date).ToList();
-            List<Mechanic> mechanics = _service.Mechanics.ToList();
+            List<AppUser> mechanics = _service.Mechanics.ToList();
 
             Dictionary<int, int> columns = new Dictionary<int, int>();
-            foreach (Mechanic m in mechanics)
+            foreach (AppUser m in mechanics)
             {
                 columns.Add(m.Id, mechanics.IndexOf(m));
             }
@@ -43,7 +43,7 @@ namespace CarService.Website.Controllers
             
             for (int i=0; i<8; ++i)
             {
-                foreach(Mechanic m in mechanics)
+                foreach(AppUser m in mechanics)
                 {
                     DateTime start = baseTime.AddHours(i);
                     TimeslotViewModel item = new TimeslotViewModel(start, m.Id, m.Name);                                        
@@ -68,7 +68,7 @@ namespace CarService.Website.Controllers
 
             for (int i = 0; i < 8; ++i)
             {
-                foreach (Mechanic m in mechanics)
+                foreach (AppUser m in mechanics)
                 {
                     TimeslotViewModel timeslot = model.Timeslots[i][columns.GetValueOrDefault(m.Id)];
                     if (timeslot.Start < DateTime.Now || HolidayChecker.IsHoliday(timeslot.Start))

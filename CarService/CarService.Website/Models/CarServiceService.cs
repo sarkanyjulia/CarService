@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using CarService.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CarService.Website.Models
 {
     public class CarServiceService : ICarServiceService
     {
         private readonly CarServiceContext _context;
+        private readonly UserManager<AppUser> _userManager;
         private readonly AppointmentDateValidator _validator;
        
 
@@ -16,9 +19,9 @@ namespace CarService.Website.Models
         {
             _context = context;
             _validator = new AppointmentDateValidator(_context);
-        }      
+        }
 
-        public IEnumerable<Mechanic> Mechanics => _context.Mechanics.OrderBy(m =>m.Id);
+        public IEnumerable<AppUser> Mechanics => _context.Users.Where(m => m.UserType.Equals("mechanic")).OrderBy(m =>m.Id);
 
         public IEnumerable<Appointment> FindAppointments(DateTime date)
         {
@@ -28,11 +31,11 @@ namespace CarService.Website.Models
                 .OrderBy(appointment => appointment.Time);
         }
 
-        public Mechanic GetMechanic(int? id)
+        public AppUser GetMechanic(int? id)
         {
             if (id == null)
                 return null;
-            Mechanic mechanic = _context.Mechanics.FirstOrDefault(m => m.Id==id);
+            AppUser mechanic = _context.Users.FirstOrDefault(m => m.Id==id);
             return mechanic;
         }
 

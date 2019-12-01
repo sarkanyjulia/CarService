@@ -12,10 +12,10 @@ namespace CarService.Website.Controllers
     public class AccountController : BaseController
     {
 
-        private readonly UserManager<Partner> _userManager;
-        private readonly SignInManager<Partner> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(ICarServiceService service, UserManager<Partner> userManager, SignInManager<Partner> signInManager) : base(service)
+        public AccountController(ICarServiceService service, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : base(service)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -71,12 +71,13 @@ namespace CarService.Website.Controllers
             if (!ModelState.IsValid)
                 return View("Register", user);
 
-            Partner partner = new Partner
+            AppUser partner = new AppUser
             {
                 UserName = user.UserName,               
                 Name = user.Name,
                 Address = user.Address,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                UserType = "partner"
             };
             var result = await _userManager.CreateAsync(partner, user.Password);
             if (!result.Succeeded)
