@@ -23,11 +23,15 @@ namespace CarService.Persistence
 
                 entity.HasOne(e => e.Mechanic)
                    .WithMany(u => u.MechanicAppointments)
-                   .OnDelete(DeleteBehavior.ClientSetNull);                   
-            });
+                   .OnDelete(DeleteBehavior.ClientSetNull);   
+                
 
+            });
+            
         }
         
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Worksheet> Worksheets { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
     }
 }
