@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarService.Website", "CarSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarService.Persistence", "CarService.Persistence\CarService.Persistence.csproj", "{3EA33979-0F5C-4136-ACE3-0FFC8BB34687}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarService.WebAPI", "CarService.WebAPI\CarService.WebAPI.csproj", "{E66CF31C-AD4E-4DA6-A488-9D2110B0735C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarService.WebAPI", "CarService.WebAPI\CarService.WebAPI.csproj", "{E66CF31C-AD4E-4DA6-A488-9D2110B0735C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarService.Data", "CarService.Data\CarService.Data.csproj", "{F46CB5F1-1B33-4407-872F-57D85E4B33A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarService.Admin", "CarService.Admin\CarService.Admin.csproj", "{32CE846B-DE22-4716-9FEA-1DC7139F9A68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F46CB5F1-1B33-4407-872F-57D85E4B33A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F46CB5F1-1B33-4407-872F-57D85E4B33A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F46CB5F1-1B33-4407-872F-57D85E4B33A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32CE846B-DE22-4716-9FEA-1DC7139F9A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32CE846B-DE22-4716-9FEA-1DC7139F9A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32CE846B-DE22-4716-9FEA-1DC7139F9A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32CE846B-DE22-4716-9FEA-1DC7139F9A68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using CarService.Data;
 using CarService.Persistence;
+using System.Collections.Generic;
 
 namespace CarService.WebAPI.Controllers
 {
@@ -30,12 +31,26 @@ namespace CarService.WebAPI.Controllers
             try
             {
                 int userId = GetUserId();
-                return Ok(_context.Appointments.Where(a => a.Mechanic.Id == userId && a.Time>= DateTime.Now.Date).OrderBy(a => a.Time)
+                List<int> appointmensHavingWorksheet = _context.Worksheets.Select(w => w.AppointmentId).ToList();
+                return Ok(_context.Appointments
+                    .Where(a => a.Mechanic.Id == userId && a.Time>= DateTime.Now.Date && !appointmensHavingWorksheet.Contains(a.Id))
+                    .OrderBy(a => a.Time)
                     .ToList()
                     .Select(a => new AppointmentDTO
                     {
-                        
-                        
+                        Id = a.Id,
+                        Time = a.Time,
+                        WorkType = a.WorkType,
+                        Partner = new UserDTO
+                        {
+                            Id = a.Partner.Id,
+                            Name = a.Partner.Name
+                        },
+                        Mechanic = new UserDTO
+                        {
+                            Id = a.Mechanic.Id,
+                            Name = a.Mechanic.Name
+                        }
                     }));
             }
             catch
