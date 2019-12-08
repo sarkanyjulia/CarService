@@ -14,8 +14,8 @@ namespace CarService.Data
         
         public String WorkType { get; set; }                
         
-        public UserDTO Partner { get; set; }
+        public UserDTO Partner { get; set; }        
 
-        public UserDTO Mechanic { get; set; }
+        public bool HasWorksheet { get; set; }
     }
 }

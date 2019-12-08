@@ -67,5 +67,26 @@ namespace CarService.Admin.Persistence
                 throw new PersistenceUnavailableException(ex);
             }
         }
+
+        public async Task<IEnumerable<AppointmentDTO>> GetAppointments()
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync("api/appointments/");
+                if (response.IsSuccessStatusCode)
+                {
+                    IEnumerable<AppointmentDTO> appointments = await response.Content.ReadAsAsync<IEnumerable<AppointmentDTO>>();
+                    return appointments;
+                }
+                else
+                {
+                    throw new PersistenceUnavailableException("Service returned response: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new PersistenceUnavailableException(ex);
+            }
+        }
     }
 }

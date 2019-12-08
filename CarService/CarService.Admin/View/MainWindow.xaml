@@ -8,5 +8,33 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0" >
+            <MenuItem Header="Adatok betöltése" Command="{Binding LoadCommand}"/>
+            <MenuItem Header="Kijelentkezés" Command="{Binding ExitCommand}" />
+        </Menu>
+        
+        <DataGrid x:Name="appointmentGrid" Grid.Row="1"  AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Appointments}" SelectedItem="{Binding SelectedAppointment}" xmlns:sys="clr-namespace:System;assembly=mscorlib" SelectionMode="Single">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Időpont" Binding="{Binding Time}" />
+                <DataGridTextColumn Header="Név" Binding="{Binding Partner.Name}" />
+                <DataGridTextColumn Header="Kategória" Binding="{Binding WorkType}" />
+                <DataGridCheckBoxColumn Header="Munkalap lezárva" Binding="{Binding HasWorksheet}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Munkalap nyitása" Command="{Binding AddWorksheetCommand}" CommandParameter="{Binding SelectedAppointment}" />
+            <Button Content="Munkalapok mentése" Command="{Binding SaveCommand}" CommandParameter="{Binding Appointments}" />
+
+        </StackPanel>
+        
     </Grid>
 </Window>

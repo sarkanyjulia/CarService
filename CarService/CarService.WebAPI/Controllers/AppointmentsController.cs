@@ -14,11 +14,11 @@ namespace CarService.WebAPI.Controllers
 {
     [Authorize(Roles ="mechanic")]
     [Route("api/[controller]")]
-    public class AppointmentController : ControllerBase
+    public class AppointmentsController : ControllerBase
     {
         private readonly CarServiceContext _context;
 
-        public AppointmentController(CarServiceContext context)
+        public AppointmentsController(CarServiceContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -45,11 +45,6 @@ namespace CarService.WebAPI.Controllers
                         {
                             Id = a.Partner.Id,
                             Name = a.Partner.Name
-                        },
-                        Mechanic = new UserDTO
-                        {
-                            Id = a.Mechanic.Id,
-                            Name = a.Mechanic.Name
                         }
                     }));
             }

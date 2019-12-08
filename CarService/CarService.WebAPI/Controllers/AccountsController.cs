@@ -9,12 +9,12 @@ using CarService.Persistence;
 namespace CarService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class AccountController : Controller
+    public class AccountsController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
 
-        public AccountController(SignInManager<AppUser> signInManager)
+        public AccountsController(SignInManager<AppUser> signInManager)
         {
             _signInManager = signInManager;
         }

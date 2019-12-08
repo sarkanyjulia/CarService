@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarService.Data
 {
-    class WorksheetDTO
+    public class WorksheetDTO
     {
         public int Id { get; set; }
 

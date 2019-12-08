@@ -14,11 +14,11 @@ namespace CarService.WebAPI.Controllers
 {
     [Authorize(Roles = "mechanic")]
     [Route("api/[controller]")]
-    public class WorksheetController : ControllerBase
+    public class WorksheetsController : ControllerBase
     {
         private readonly CarServiceContext _context;
 
-        public WorksheetController(CarServiceContext context)
+        public WorksheetsController(CarServiceContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
