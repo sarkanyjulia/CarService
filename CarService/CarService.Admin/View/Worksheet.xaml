@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarService.Admin.View"
         mc:Ignorable="d"
-        Title="Worksheet" Height="450" Width="800">
+        Title="Munkalap" Height="450" Width="800">
     <Grid>
         
     </Grid>
