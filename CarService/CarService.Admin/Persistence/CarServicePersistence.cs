@@ -25,11 +25,11 @@ namespace CarService.Admin.Persistence
         {
             try
             {
-                HttpResponseMessage response = await _client.GetAsync("api/account/login/" + userName + "/" + userPassword);
+                HttpResponseMessage response = await _client.GetAsync("api/accounts/login/" + userName + "/" + userPassword);
                 return response.IsSuccessStatusCode; // a művelet eredménye megadja a bejelentkezés sikeressségét
             }
             catch (Exception ex)
-            {
+            {               
                 throw new PersistenceUnavailableException(ex);
             }
         }
@@ -42,7 +42,7 @@ namespace CarService.Admin.Persistence
                 return !response.IsSuccessStatusCode;
             }
             catch (Exception ex)
-            {
+            {                
                 throw new PersistenceUnavailableException(ex);
             }
         }
@@ -58,7 +58,7 @@ namespace CarService.Admin.Persistence
                     return user;
                 }
                 else
-                {
+                {                    
                     throw new PersistenceUnavailableException("Service returned response: " + response.StatusCode);
                 }
             }
@@ -79,9 +79,22 @@ namespace CarService.Admin.Persistence
                     return appointments;
                 }
                 else
-                {
+                {                    
                     throw new PersistenceUnavailableException("Service returned response: " + response.StatusCode);
                 }
+            }
+            catch (Exception ex)
+            {                
+                throw new PersistenceUnavailableException(ex);
+            }
+        }
+
+        public async Task<bool> SaveWorksheetAsync(WorksheetDTO worksheet)
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.PostAsJsonAsync("api/worksheets/", worksheet);
+                return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {

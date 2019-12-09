@@ -11,12 +11,12 @@ namespace CarService.Admin.Model
 
         Task<Boolean> LogoutAsync();
 
-        void Model_LoginSuccessAsync(object sender, EventArgs e);
-
         Boolean IsUserLoggedIn { get; }
 
         List<AppointmentDTO> AppointmentList { get; }
 
         Task LoadAsync();
+
+        Task SaveAsync(List<WorksheetDTO> worksheets);
     }
 }

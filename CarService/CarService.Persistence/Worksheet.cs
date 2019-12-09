@@ -19,5 +19,6 @@ namespace CarService.Persistence
         public List<WorkItem> Items { get; set; }        
 
         public int FinalPrice { get; set; }
+
     }
 }

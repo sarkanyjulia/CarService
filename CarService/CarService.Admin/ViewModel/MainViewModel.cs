@@ -15,17 +15,8 @@ namespace CarService.Admin.ViewModel
         private ICarServiceModel _model;
         private ObservableCollection<AppointmentDTO> _appointments;
         private AppointmentDTO _selectedAppointment;
-
-        public MainViewModel(ICarServiceModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException("model");
-
-            _model = model;
-
-            LoadAsync();
-            //LoadCommand = new DelegateCommand(param => LoadAsync());
-        }
+        private List<WorksheetDTO> _worksheets;
+        
 
         public ObservableCollection<AppointmentDTO> Appointments
         {
@@ -53,6 +44,26 @@ namespace CarService.Admin.ViewModel
             }
         }
 
+        public DelegateCommand LoadCommand { get; private set; }
+        public DelegateCommand SaveCommand { get; private set; }
+        public DelegateCommand AddWorksheetCommand { get; private set; }
+
+
+        public event EventHandler ExitApplication;
+
+        public MainViewModel(ICarServiceModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException("model");
+
+            _model = model;
+            _worksheets = new List<WorksheetDTO>();
+
+            LoadAsync();
+            LoadCommand = new DelegateCommand(param => LoadAsync());
+            SaveCommand = new DelegateCommand(param => SaveAsync());
+        }      
+
         private async void LoadAsync()
         {
             try
@@ -63,6 +74,14 @@ namespace CarService.Admin.ViewModel
             catch (PersistenceUnavailableException)
             {
                 OnMessageApplication("A betöltés sikertelen! Nincs kapcsolat a kiszolgálóval.");
+            }
+        }
+
+        private async void SaveAsync()
+        {
+            try
+            {
+                var result = await _model.SaveAsync(_worksheets);
             }
         }
     }

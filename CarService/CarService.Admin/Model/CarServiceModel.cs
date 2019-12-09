@@ -21,8 +21,6 @@ namespace CarService.Admin.Model
             _persistence = persistence;
         }
 
-        public UserDTO RecentUser { get; private set; }
-
         public bool IsUserLoggedIn { get; private set; }     
         
         public List<AppointmentDTO> AppointmentList
@@ -32,11 +30,7 @@ namespace CarService.Admin.Model
 
         public async Task<bool> LoginAsync(string userName, string userPassword)
         {
-            IsUserLoggedIn = await _persistence.LoginAsync(userName, userPassword);
-            if (IsUserLoggedIn)
-            {
-                RecentUser = await _persistence.GetUser();
-            }
+            IsUserLoggedIn = await _persistence.LoginAsync(userName, userPassword);            
             return IsUserLoggedIn;
         }
 
@@ -44,21 +38,22 @@ namespace CarService.Admin.Model
         {
             if (!IsUserLoggedIn)
                 return true;
-
-            IsUserLoggedIn = !(await _persistence.LogoutAsync());
-            RecentUser = null;
+            IsUserLoggedIn = !(await _persistence.LogoutAsync());            
             return IsUserLoggedIn;
         }
 
-        public async void Model_LoginSuccessAsync(object sender, EventArgs e)
-        {
-            UserDTO user = await _persistence.GetUser();
-            RecentUser = user;
-        }
 
         public async Task LoadAsync()
         {
             _appointmentList = (await _persistence.GetAppointments()).ToList();
+        }
+
+        public async Task SaveAsync(List<WorksheetDTO> worksheets)
+        {
+            foreach (WorksheetDTO worksheet in worksheets)
+            {
+                await _persistence.SaveWorksheetAsync(worksheet);
+            }
         }
     }
 }

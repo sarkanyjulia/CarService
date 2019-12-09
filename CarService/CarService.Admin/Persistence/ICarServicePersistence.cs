@@ -11,5 +11,6 @@ namespace CarService.Admin.Persistence
         Task<Boolean> LogoutAsync();
         Task<UserDTO> GetUser();
         Task<IEnumerable<AppointmentDTO>> GetAppointments();
+        Task<Boolean> SaveWorksheetAsync(WorksheetDTO worksheet);
     }
 }

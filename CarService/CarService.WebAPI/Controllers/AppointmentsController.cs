@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarService.Data;
 using CarService.Persistence;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarService.WebAPI.Controllers
 {
@@ -33,6 +34,7 @@ namespace CarService.WebAPI.Controllers
                 int userId = GetUserId();
                 List<int> appointmensHavingWorksheet = _context.Worksheets.Select(w => w.AppointmentId).ToList();
                 return Ok(_context.Appointments
+                    .Include(a => a.Partner)
                     .Where(a => a.Mechanic.Id == userId && a.Time>= DateTime.Now.Date && !appointmensHavingWorksheet.Contains(a.Id))
                     .OrderBy(a => a.Time)
                     .ToList()

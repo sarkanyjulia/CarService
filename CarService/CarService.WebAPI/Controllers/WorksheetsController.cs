@@ -24,19 +24,37 @@ namespace CarService.WebAPI.Controllers
                 throw new ArgumentNullException(nameof(context));
             _context = context;
         }
-
-        /*
+        
         [HttpPost]
-        public IActionResult PostWorksheet([FromBody] worksheetDTO)
+        public IActionResult PostWorksheet([FromBody] WorksheetDTO worksheetDTO)
         {
             int userId = GetUserId();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
+            try
+            {
+                Worksheet worksheetToAdd = new Worksheet
+                {
+                    AppointmentId = worksheetDTO.Appointment.Id,
+                    FinalPrice = worksheetDTO.FinalPrice,
+                };
+                foreach (WorkItemDTO item in worksheetDTO.Items)
+                {
+                    WorkItem itemToAdd = _context.WorkItems.Find(item.Id);
+                    worksheetToAdd.Items.Add(itemToAdd);
+                }
+                var addedWorksheet = _context.Worksheets.Add(worksheetToAdd);
+                _context.SaveChanges();
+                return CreatedAtRoute("GetWorksheet", new { id = addedWorksheet.Entity.Id }, worksheetDTO);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
-        */
+        
         protected virtual int GetUserId()
         {
             return Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));

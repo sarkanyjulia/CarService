@@ -43,7 +43,8 @@ namespace CarService.Admin
         private void ViewModel_LoginSuccess(object sender, EventArgs e)
         {
             _mainViewModel = new MainViewModel(_model);
-            
+            _mainViewModel.MessageApplication += new EventHandler<MessageEventArgs>(ViewModel_MessageApplication);
+            _mainViewModel.ExitApplication += new EventHandler(ViewModel_ExitApplication);
 
             _mainView = new MainWindow();
             _mainView.DataContext = _mainViewModel;
@@ -66,6 +67,16 @@ namespace CarService.Admin
         }
 
         private void ViewModel_ExitApplication(object sender, System.EventArgs e)
+        {
+            Shutdown();
+        }
+
+        private void ViewModel_MessageApplication(object sender, MessageEventArgs e)
+        {
+            MessageBox.Show(e.Message, "Szuper Szaki Autószervíz", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+        }
+
+        private void ViewModel_ExitApplicationS(object sender, System.EventArgs e)
         {
             Shutdown();
         }
