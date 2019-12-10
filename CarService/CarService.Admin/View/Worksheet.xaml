@@ -6,7 +6,37 @@
         xmlns:local="clr-namespace:CarService.Admin.View"
         mc:Ignorable="d"
         Title="Munkalap" Height="450" Width="800">
-    <Grid>
+    <Grid  Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="181*" />
+            <ColumnDefinition Width="150*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Grid.Row="0" Grid.Column="0"  Margin="5" Text="Időpont:" />
+        <TextBlock Grid.Row="0" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.Appointment.Time}" />
+        <TextBlock Grid.Row="1" Grid.Column="0"  Margin="5" Text="Megrendelő neve:" />
+        <TextBlock Grid.Row="1" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.Appointment.Partner.Name}" />
+        <TextBlock Grid.Row="3" Grid.Column="0"  Margin="5" Text="Tételek:" />
         
+        
+        
+        <TextBlock Grid.Row="4" Grid.Column="0"  Margin="5" Text="Végösszeg:" />
+        <TextBlock Grid.Row="4" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.FinalPrice}" />
+
+        <ListBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding WorksheetUnderEdit.Items}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 SelectionMode="Single" SelectedItem="{Binding SelectedWorkItem}"
+    
     </Grid>
+
+
 </Window>

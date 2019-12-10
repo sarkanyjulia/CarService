@@ -14,9 +14,11 @@ namespace CarService.Admin.Model
         Boolean IsUserLoggedIn { get; }
 
         List<AppointmentDTO> AppointmentList { get; }
+        List<WorkItemDTO> ItemList { get; }
 
         Task LoadAsync();
 
         Task SaveAsync(List<WorksheetDTO> worksheets);
+        
     }
 }

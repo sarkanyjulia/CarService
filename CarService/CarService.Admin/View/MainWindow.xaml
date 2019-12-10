@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:CarService.Admin.View"
         mc:Ignorable="d"
         Title="Szuper Szaki Autószervíz" Height="450" Width="800">
+
+    
+    
     <Grid>
         
         <Grid.RowDefinitions>

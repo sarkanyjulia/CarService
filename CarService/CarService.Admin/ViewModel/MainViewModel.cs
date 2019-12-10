@@ -16,7 +16,10 @@ namespace CarService.Admin.ViewModel
         private ObservableCollection<AppointmentDTO> _appointments;
         private AppointmentDTO _selectedAppointment;
         private List<WorksheetDTO> _worksheets;
-        
+
+        public WorksheetViewModel WorksheetUnderEdit;
+        public List<WorkItemDTO> ItemList { get; set; }
+
 
         public ObservableCollection<AppointmentDTO> Appointments
         {
@@ -70,6 +73,7 @@ namespace CarService.Admin.ViewModel
             {
                 await _model.LoadAsync();
                 Appointments = new ObservableCollection<AppointmentDTO>(_model.AppointmentList);
+                ItemList = new List<WorkItemDTO>(_model.ItemList);
             }
             catch (PersistenceUnavailableException)
             {
@@ -81,7 +85,11 @@ namespace CarService.Admin.ViewModel
         {
             try
             {
-                var result = await _model.SaveAsync(_worksheets);
+                await _model.SaveAsync(_worksheets);
+            }
+            catch (PersistenceUnavailableException)
+            {
+                OnMessageApplication("A mentés sikertelen! Nincs kapcsolat a kiszolgálóval.");
             }
         }
     }

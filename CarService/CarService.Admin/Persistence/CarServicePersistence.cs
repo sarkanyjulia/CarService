@@ -101,5 +101,26 @@ namespace CarService.Admin.Persistence
                 throw new PersistenceUnavailableException(ex);
             }
         }
+
+        public async Task<IEnumerable<WorkItemDTO>> GetWorkItems()
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync("api/workitems/");
+                if (response.IsSuccessStatusCode)
+                {
+                    IEnumerable<WorkItemDTO> workItems = await response.Content.ReadAsAsync<IEnumerable<WorkItemDTO>> ();
+                    return workItems;
+                }
+                else
+                {
+                    throw new PersistenceUnavailableException("Service returned response: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new PersistenceUnavailableException(ex);
+            }
+        }
     }
 }

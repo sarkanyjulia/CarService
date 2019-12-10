@@ -27,8 +27,76 @@ namespace CarService.Persistence
             }
 
             SeedUsers();
-            SeedMechanics();                     
-        }      
+            SeedMechanics();
+            SeedWorkItems();
+        }
+
+        private static void SeedWorkItems()
+        {
+            var items = new WorkItem[]
+            {
+                new WorkItem
+                {
+                    Item = "Óradíj",
+                    Price = 6000
+                },
+                new WorkItem
+                {
+                    Item = "Akkumulátorcsere",
+                    Price = 3000
+                },
+                new WorkItem
+                {
+                    Item = "Műszaki vizsga",
+                    Price = 31500
+                },
+               new WorkItem
+                {
+                    Item = "Kisszervíz",
+                    Price = 9500
+                },
+               new WorkItem
+                {
+                    Item = "Nagyszervíz",
+                    Price = 14500
+                },
+                new WorkItem
+                {
+                    Item = "Fékbetét csere",
+                    Price = 10000
+                },
+                new WorkItem
+                {
+                    Item = "Kuplungszett csere",
+                    Price = 50000
+                },
+                new WorkItem
+                {
+                    Item = "Olajcsere",
+                    Price = 7990
+                },
+                new WorkItem
+                {
+                    Item = "Fényszóró állítás",
+                    Price = 2990
+                },
+                new WorkItem
+                {
+                    Item = "Futóműállítás",
+                    Price = 12500
+                },
+                new WorkItem
+                {
+                    Item = "Kerékcsere/db",
+                    Price = 2500
+                }
+            };
+            foreach (WorkItem item in items)
+            {
+                _context.WorkItems.Add(item);
+            }
+            _context.SaveChanges();
+        }
 
         private static void SeedUsers()
         {            

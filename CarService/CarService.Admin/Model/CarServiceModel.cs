@@ -9,8 +9,7 @@ namespace CarService.Admin.Model
 {
     public class CarServiceModel : ICarServiceModel
     {
-        private ICarServicePersistence _persistence;
-        private List<AppointmentDTO> _appointmentList;
+        private ICarServicePersistence _persistence;        
 
         public CarServiceModel(ICarServicePersistence persistence)
         {
@@ -23,10 +22,8 @@ namespace CarService.Admin.Model
 
         public bool IsUserLoggedIn { get; private set; }     
         
-        public List<AppointmentDTO> AppointmentList
-        {
-            get { return _appointmentList; }
-        }
+        public List<AppointmentDTO> AppointmentList { get; private set; }
+        public List<WorkItemDTO> ItemList { get; private set; }
 
         public async Task<bool> LoginAsync(string userName, string userPassword)
         {
@@ -45,7 +42,8 @@ namespace CarService.Admin.Model
 
         public async Task LoadAsync()
         {
-            _appointmentList = (await _persistence.GetAppointments()).ToList();
+            AppointmentList = (await _persistence.GetAppointments()).ToList();
+            ItemList = (await _persistence.GetWorkItems()).ToList();
         }
 
         public async Task SaveAsync(List<WorksheetDTO> worksheets)

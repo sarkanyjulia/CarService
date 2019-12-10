@@ -12,5 +12,6 @@ namespace CarService.Admin.Persistence
         Task<UserDTO> GetUser();
         Task<IEnumerable<AppointmentDTO>> GetAppointments();
         Task<Boolean> SaveWorksheetAsync(WorksheetDTO worksheet);
+        Task<IEnumerable<WorkItemDTO>> GetWorkItems();
     }
 }
