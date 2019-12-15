@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace CarService.Admin.View
 {
     /// <summary>
-    /// Interaction logic for Worksheet.xaml
+    /// Interaction logic for WorksheetEditorWindow.xaml
     /// </summary>
-    public partial class Worksheet : Window
+    public partial class WorksheetEditorWindow : Window
     {
-        public Worksheet()
+        public WorksheetEditorWindow()
         {
             InitializeComponent();
         }

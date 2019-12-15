@@ -17,5 +17,7 @@ namespace CarService.Data
         public UserDTO Partner { get; set; }        
 
         public bool HasWorksheet { get; set; }
+
+        public bool HasClosedWorksheet { get; set; }
     }
 }

@@ -18,12 +18,15 @@ namespace CarService.Admin.Model
 
             IsUserLoggedIn = false;
             _persistence = persistence;
+            Worksheets = new List<WorksheetDTO>();
         }
 
         public bool IsUserLoggedIn { get; private set; }     
         
         public List<AppointmentDTO> AppointmentList { get; private set; }
         public List<WorkItemDTO> ItemList { get; private set; }
+
+        public List<WorksheetDTO> Worksheets { get; set; }
 
         public async Task<bool> LoginAsync(string userName, string userPassword)
         {
@@ -46,11 +49,14 @@ namespace CarService.Admin.Model
             ItemList = (await _persistence.GetWorkItems()).ToList();
         }
 
-        public async Task SaveAsync(List<WorksheetDTO> worksheets)
+        public async Task SaveAsync()
         {
-            foreach (WorksheetDTO worksheet in worksheets)
+            foreach (WorksheetDTO worksheet in Worksheets)
             {
-                await _persistence.SaveWorksheetAsync(worksheet);
+                if (worksheet.Closed)
+                { 
+                    await _persistence.SaveWorksheetAsync(worksheet);
+                }
             }
         }
     }

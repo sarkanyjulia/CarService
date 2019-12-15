@@ -15,5 +15,7 @@ namespace CarService.Data
         public List<WorkItemDTO> Items { get; set; }
 
         public int FinalPrice { get; set; }
+
+        public bool Closed { get; set; }
     }
 }

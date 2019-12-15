@@ -15,11 +15,11 @@ namespace CarService.Admin.ViewModel
         private ICarServiceModel _model;
         private ObservableCollection<AppointmentDTO> _appointments;
         private AppointmentDTO _selectedAppointment;
-        private List<WorksheetDTO> _worksheets;
+       
+        
 
-        public WorksheetViewModel WorksheetUnderEdit;
-        public List<WorkItemDTO> ItemList { get; set; }
-
+        public WorksheetViewModel WorksheetUnderEdit { get; set; }
+        
 
         public ObservableCollection<AppointmentDTO> Appointments
         {
@@ -47,12 +47,26 @@ namespace CarService.Admin.ViewModel
             }
         }
 
+        
+
         public DelegateCommand LoadCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
-        public DelegateCommand AddWorksheetCommand { get; private set; }
+        public DelegateCommand OpenEditorCommand { get; private set; }
+        public DelegateCommand CloseWorksheetCommand { get; private set; }
+        public DelegateCommand SaveWorksheetCommand { get; private set; }
+        public DelegateCommand CancelWorksheetCommand { get; private set; }
+        //public DelegateCommand ExitCommand { get; private set; }
+        public DelegateCommand LogoutCommand { get; private set; }
+        public DelegateCommand AddWorkItemCommand { get; private set; }
+        public DelegateCommand DeleteWorkItemCommand { get; private set; }
 
 
-        public event EventHandler ExitApplication;
+
+        //public event EventHandler ExitApplication;
+        public event EventHandler Logout;
+        public event EventHandler EditingStarted;
+        public event EventHandler EditingFinished;
+        
 
         public MainViewModel(ICarServiceModel model)
         {
@@ -60,12 +74,90 @@ namespace CarService.Admin.ViewModel
                 throw new ArgumentNullException("model");
 
             _model = model;
-            _worksheets = new List<WorksheetDTO>();
+            
 
             LoadAsync();
             LoadCommand = new DelegateCommand(param => LoadAsync());
             SaveCommand = new DelegateCommand(param => SaveAsync());
-        }      
+            OpenEditorCommand = new DelegateCommand(param => EditWorksheet(param as AppointmentDTO));
+            CloseWorksheetCommand = new DelegateCommand(param => CloseWorksheet());
+            SaveWorksheetCommand = new DelegateCommand(param => SaveWorksheet());
+            CancelWorksheetCommand = new DelegateCommand(param => CancelWorksheet());
+            //ExitCommand = new DelegateCommand(param => OnExitApplication());
+            LogoutCommand = new DelegateCommand(param => OnLogout());
+            AddWorkItemCommand = new DelegateCommand(param => AddWorkItem());
+            DeleteWorkItemCommand = new DelegateCommand(param => DeleteWorkItem());
+        }
+
+        private void CloseWorksheet()
+        {
+            WorksheetDTO existingWorksheet = _model.Worksheets.FirstOrDefault(w => w.Appointment.Id == WorksheetUnderEdit.Appointment.Id);
+            if (existingWorksheet != null)
+            {
+                _model.Worksheets.Remove(existingWorksheet);
+            }
+            _model.Worksheets.Add(new WorksheetDTO
+            {
+                Appointment = WorksheetUnderEdit.Appointment,
+                Items = WorksheetUnderEdit.Items.ToList(),
+                FinalPrice = WorksheetUnderEdit.FinalPrice,
+                Closed = true
+            });
+            AppointmentDTO appointmentToUpdate = Appointments.First(a => a.Id == WorksheetUnderEdit.Appointment.Id);
+            appointmentToUpdate.HasWorksheet = true;
+            appointmentToUpdate.HasClosedWorksheet = true;
+            OnEditingFinished();
+        }
+
+        private void CancelWorksheet()
+        {            
+            OnEditingFinished();
+        }
+
+        private void SaveWorksheet()
+        {
+            WorksheetDTO existingWorksheet = _model.Worksheets.FirstOrDefault(w => w.Appointment.Id == WorksheetUnderEdit.Appointment.Id);
+            if (existingWorksheet!=null)
+            {
+                _model.Worksheets.Remove(existingWorksheet);
+            }
+            _model.Worksheets.Add(new WorksheetDTO
+            {
+                Appointment = WorksheetUnderEdit.Appointment,
+                Items = WorksheetUnderEdit.Items.ToList(),
+                FinalPrice = WorksheetUnderEdit.FinalPrice
+            });
+            AppointmentDTO appointmentToUpdate = Appointments.First(a => a.Id == WorksheetUnderEdit.Appointment.Id);
+            appointmentToUpdate.HasWorksheet = true;
+            OnEditingFinished();
+        }
+
+        private void AddWorkItem()
+        {
+            if (WorksheetUnderEdit.SelectedItemListItem != null)
+            { 
+                WorksheetUnderEdit.Items.Add(new WorkItemDTO
+                {
+                    Id = WorksheetUnderEdit.SelectedItemListItem.Id,
+                    Item = WorksheetUnderEdit.SelectedItemListItem.Item,
+                    Price = WorksheetUnderEdit.SelectedItemListItem.Price
+                });
+                WorksheetUnderEdit.FinalPrice += WorksheetUnderEdit.SelectedItemListItem.Price;
+            }
+        }
+
+        private void DeleteWorkItem()
+        {
+            if (WorksheetUnderEdit.SelectedItemListItem != null)
+            {
+                WorkItemDTO itemToDelete = WorksheetUnderEdit.Items.FirstOrDefault(item => item.Id== WorksheetUnderEdit.SelectedItemListItem.Id);
+                if (itemToDelete!=null)
+                {
+                    WorksheetUnderEdit.Items.Remove(itemToDelete);
+                    WorksheetUnderEdit.FinalPrice -= itemToDelete.Price;
+                }
+            }
+        }
 
         private async void LoadAsync()
         {
@@ -73,7 +165,7 @@ namespace CarService.Admin.ViewModel
             {
                 await _model.LoadAsync();
                 Appointments = new ObservableCollection<AppointmentDTO>(_model.AppointmentList);
-                ItemList = new List<WorkItemDTO>(_model.ItemList);
+                
             }
             catch (PersistenceUnavailableException)
             {
@@ -83,14 +175,64 @@ namespace CarService.Admin.ViewModel
 
         private async void SaveAsync()
         {
-            try
+                try
+                {
+                    await _model.SaveAsync();
+                }
+                catch (PersistenceUnavailableException)
+                {
+                    OnMessageApplication("A mentés sikertelen! Nincs kapcsolat a kiszolgálóval.");
+                }
+            
+        }
+
+        private void EditWorksheet(AppointmentDTO appointment)
+        {
+            if (appointment != null && WorksheetUnderEdit==null && !appointment.HasClosedWorksheet)
             {
-                await _model.SaveAsync(_worksheets);
-            }
-            catch (PersistenceUnavailableException)
-            {
-                OnMessageApplication("A mentés sikertelen! Nincs kapcsolat a kiszolgálóval.");
+                WorksheetUnderEdit = new WorksheetViewModel
+                {
+                    Appointment = appointment,
+                    ItemList = _model.ItemList,
+                    FinalPrice = 0
+                };
+                if (appointment.HasWorksheet)
+                {
+                    WorksheetDTO worksheet = _model.Worksheets.Find(w => w.Appointment.Id == appointment.Id);
+                    WorksheetUnderEdit.Items = new ObservableCollection<WorkItemDTO>(worksheet.Items);
+                    WorksheetUnderEdit.FinalPrice = worksheet.FinalPrice;
+                }                
+                OnEditingStarted();
             }
         }
+
+        private void OnEditingStarted()
+        {
+            if (EditingStarted != null)
+                EditingStarted(this, EventArgs.Empty);
+        }
+
+        /*
+        private void OnExitApplication()
+        {
+            if (ExitApplication != null)
+                ExitApplication(this, EventArgs.Empty);
+        }
+        */
+
+        private void OnLogout()
+        {
+            if (Logout != null)
+                Logout(this, EventArgs.Empty);
+        }
+
+        private void OnEditingFinished()
+        {
+            if (EditingFinished != null)
+                EditingFinished(this, EventArgs.Empty);
+        }
+
+        
+
     }
 }

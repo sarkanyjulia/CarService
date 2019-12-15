@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarService.Admin.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
+        Title="Szuper Szaki Autószervíz - Bejelentkezés" Height="150" Width="300">
     <Window.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding LoginCommand}" />
     </Window.InputBindings>
