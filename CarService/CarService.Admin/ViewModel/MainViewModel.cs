@@ -91,22 +91,31 @@ namespace CarService.Admin.ViewModel
 
         private void CloseWorksheet()
         {
-            WorksheetDTO existingWorksheet = _model.Worksheets.FirstOrDefault(w => w.Appointment.Id == WorksheetUnderEdit.Appointment.Id);
-            if (existingWorksheet != null)
+            if (MessageBox.Show("A lezárt munkalapot nem fogja tudni tovább szerkeszteni. Biztosan folytatni szeretné?", "Megerősítés",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                _model.Worksheets.Remove(existingWorksheet);
+                WorksheetDTO existingWorksheet = _model.Worksheets.FirstOrDefault(w => w.Appointment.Id == WorksheetUnderEdit.Appointment.Id);
+                if (existingWorksheet != null)
+                {
+                    _model.Worksheets.Remove(existingWorksheet);
+                }
+                _model.Worksheets.Add(new WorksheetDTO
+                {
+                    Appointment = WorksheetUnderEdit.Appointment,
+                    Items = WorksheetUnderEdit.Items.ToList(),
+                    FinalPrice = WorksheetUnderEdit.FinalPrice,
+                    Closed = true
+                });
+                AppointmentDTO appointmentToUpdate = _model.AppointmentList.First(a => a.Id == WorksheetUnderEdit.Appointment.Id);
+                appointmentToUpdate.HasWorksheet = true;
+                appointmentToUpdate.HasClosedWorksheet = true;
+                Appointments = new ObservableCollection<AppointmentDTO>(_model.AppointmentList);
+                OnEditingFinished();
             }
-            _model.Worksheets.Add(new WorksheetDTO
+            else
             {
-                Appointment = WorksheetUnderEdit.Appointment,
-                Items = WorksheetUnderEdit.Items.ToList(),
-                FinalPrice = WorksheetUnderEdit.FinalPrice,
-                Closed = true
-            });
-            AppointmentDTO appointmentToUpdate = Appointments.First(a => a.Id == WorksheetUnderEdit.Appointment.Id);
-            appointmentToUpdate.HasWorksheet = true;
-            appointmentToUpdate.HasClosedWorksheet = true;
-            OnEditingFinished();
+                // do nothing
+            }
         }
 
         private void CancelWorksheet()
@@ -127,8 +136,9 @@ namespace CarService.Admin.ViewModel
                 Items = WorksheetUnderEdit.Items.ToList(),
                 FinalPrice = WorksheetUnderEdit.FinalPrice
             });
-            AppointmentDTO appointmentToUpdate = Appointments.First(a => a.Id == WorksheetUnderEdit.Appointment.Id);
+            AppointmentDTO appointmentToUpdate = _model.AppointmentList.First(a => a.Id == WorksheetUnderEdit.Appointment.Id);
             appointmentToUpdate.HasWorksheet = true;
+            Appointments = new ObservableCollection<AppointmentDTO>(_model.AppointmentList);
             OnEditingFinished();
         }
 
@@ -178,6 +188,7 @@ namespace CarService.Admin.ViewModel
                 try
                 {
                     await _model.SaveAsync();
+                    LoadAsync();
                 }
                 catch (PersistenceUnavailableException)
                 {

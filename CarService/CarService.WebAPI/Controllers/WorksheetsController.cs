@@ -38,12 +38,16 @@ namespace CarService.WebAPI.Controllers
                 Worksheet worksheetToAdd = new Worksheet
                 {
                     AppointmentId = worksheetDTO.Appointment.Id,
-                    FinalPrice = worksheetDTO.FinalPrice,
+                    FinalPrice = worksheetDTO.FinalPrice,                  
                 };
+                worksheetToAdd.Items = new List<WorksheetWorkItem>();
                 foreach (WorkItemDTO item in worksheetDTO.Items)
-                {
-                    WorkItem itemToAdd = _context.WorkItems.Find(item.Id);
-                    worksheetToAdd.Items.Add(itemToAdd);
+                {                    
+                    worksheetToAdd.Items.Add(new WorksheetWorkItem
+                    {
+                        Item = item.Item,
+                        Price = item.Price
+                    });
                 }
                 var addedWorksheet = _context.Worksheets.Add(worksheetToAdd);
                 _context.SaveChanges();

@@ -36,7 +36,7 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Content="Munkalap nyitása a kiválasztott időponthoz" Command="{Binding OpenEditorCommand}" CommandParameter="{Binding SelectedAppointment}" />
-            <Button Content="Munkalapok mentése az adatbázisba" Command="{Binding SaveCommand}" CommandParameter="{Binding Appointments}" />
+            <Button Content="Lezárt munkalapok mentése" Command="{Binding SaveCommand}" />
 
         </StackPanel>
         

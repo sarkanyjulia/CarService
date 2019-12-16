@@ -33,5 +33,6 @@ namespace CarService.Persistence
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Worksheet> Worksheets { get; set; }
         public DbSet<WorkItem> WorkItems { get; set; }
+        public DbSet<WorksheetWorkItem> WorksheetWorkItems { get; set; }
     }
 }
