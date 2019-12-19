@@ -30,12 +30,11 @@ namespace CarService.WebAPI.Controllers
         public IActionResult GetAppointments()
         {
             try
-            {
-                int userId = GetUserId();
+            {                
                 List<int> appointmensHavingWorksheet = _context.Worksheets.Select(w => w.AppointmentId).ToList();
                 return Ok(_context.Appointments
                     .Include(a => a.Partner)
-                    .Where(a => a.Mechanic.Id == userId && a.Time>= DateTime.Now.Date && !appointmensHavingWorksheet.Contains(a.Id))
+                    .Where(a => a.Mechanic.UserName == User.Identity.Name && a.Time>= DateTime.Now.Date && !appointmensHavingWorksheet.Contains(a.Id))
                     .OrderBy(a => a.Time)
                     .ToList()
                     .Select(a => new AppointmentDTO
@@ -55,13 +54,6 @@ namespace CarService.WebAPI.Controllers
                 // Internal Server Error
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-
-
-        protected virtual int GetUserId()
-        {            
-            return Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+        }       
     }
 }

@@ -24,30 +24,17 @@ namespace CarService.WebAPI.Controllers
 
         // GET: api/WorkItems
         [HttpGet]
-        public IEnumerable<WorkItem> GetWorkItems()
+        public IActionResult GetWorkItems()
         {
-            return _context.WorkItems;
-        }
-
-        // GET: api/WorkItems/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetWorkItem([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                return Ok(_context.WorkItems);
             }
-
-            var workItem = await _context.WorkItems.SingleOrDefaultAsync(m => m.Id == id);
-
-            if (workItem == null)
+            catch
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
-            return Ok(workItem);
         }
-
        
     }
 }

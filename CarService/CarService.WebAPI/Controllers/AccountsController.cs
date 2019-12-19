@@ -12,7 +12,6 @@ namespace CarService.WebAPI.Controllers
     public class AccountsController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly UserManager<AppUser> _userManager;
 
         public AccountsController(SignInManager<AppUser> signInManager)
         {

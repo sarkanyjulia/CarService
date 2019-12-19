@@ -27,17 +27,23 @@ namespace CarService.WebAPI.Controllers
         
         [HttpPost]
         public IActionResult PostWorksheet([FromBody] WorksheetDTO worksheetDTO)
-        {
-            int userId = GetUserId();
+        {           
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            Appointment appointment = _context.Appointments.Find(worksheetDTO.Appointment.Id);
+            if (!User.Identity.Name.Equals(appointment.Mechanic.UserName))
+            {
+                return Unauthorized();
             }
             try
             {
                 Worksheet worksheetToAdd = new Worksheet
                 {
-                    AppointmentId = worksheetDTO.Appointment.Id,
+                    AppointmentId = appointment.Id,
+                    Partner = appointment.Partner,
+                    Mechanic = appointment.Mechanic,
                     FinalPrice = worksheetDTO.FinalPrice,                  
                 };
                 worksheetToAdd.Items = new List<WorksheetWorkItem>();
@@ -51,17 +57,13 @@ namespace CarService.WebAPI.Controllers
                 }
                 var addedWorksheet = _context.Worksheets.Add(worksheetToAdd);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetWorksheet", new { id = addedWorksheet.Entity.Id }, worksheetDTO);
+                return CreatedAtAction("GetWorksheet", new { id = addedWorksheet.Entity.Id }, worksheetDTO);
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        
-        protected virtual int GetUserId()
-        {
-            return Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+                
     }
 }

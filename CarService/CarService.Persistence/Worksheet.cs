@@ -10,11 +10,14 @@ namespace CarService.Persistence
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
+        
         public int AppointmentId { get; set; }
 
         public virtual Appointment Appointment { get; set; }
+
+        public AppUser Partner { get; set; }
+
+        public AppUser Mechanic { get; set; }
 
         public List<WorksheetWorkItem> Items { get; set; }        
 
