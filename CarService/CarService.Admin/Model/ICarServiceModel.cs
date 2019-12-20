@@ -18,7 +18,7 @@ namespace CarService.Admin.Model
 
         Task LoadAsync();
 
-        Task SaveAsync();
+        Task<Boolean> SaveAsync();
 
         List<WorksheetDTO> Worksheets { get; set; }
         

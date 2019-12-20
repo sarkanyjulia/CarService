@@ -187,7 +187,14 @@ namespace CarService.Admin.ViewModel
         {
                 try
                 {
-                    await _model.SaveAsync();
+                    if (await _model.SaveAsync())
+                    {
+                        OnMessageApplication("Sikeres mentés.");
+                    }
+                    else
+                    {
+                        OnMessageApplication("Néhány munkalap mentése nem sikerült.");
+                    }
                     LoadAsync();
                 }
                 catch (PersistenceUnavailableException)
