@@ -20,4 +20,5 @@ namespace CarService.Data
 
         public bool HasClosedWorksheet { get; set; }
     }
+
 }

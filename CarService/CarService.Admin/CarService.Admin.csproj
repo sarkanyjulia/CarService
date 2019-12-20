@@ -81,6 +81,7 @@
     <Compile Include="Persistence\CarServicePersistence.cs" />
     <Compile Include="Persistence\ICarServicePersistence.cs" />
     <Compile Include="Persistence\PersistenceUnavailableException.cs" />
+    <Compile Include="ViewModel\Converters\WorkTypeConverter.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

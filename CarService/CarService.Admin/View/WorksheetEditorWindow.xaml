@@ -23,7 +23,7 @@
 
 
         <TextBlock Grid.Row="0" Grid.Column="0"  Margin="5" Text="Időpont:" />
-        <TextBlock Grid.Row="0" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.Appointment.Time}" />
+        <TextBlock Grid.Row="0" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.Appointment.Time, StringFormat='{}{0:yyyy.MM.dd HH:mm}'}" />
         <TextBlock Grid.Row="1" Grid.Column="0"  Margin="5" Text="Megrendelő neve:" />
         <TextBlock Grid.Row="1" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.Appointment.Partner.Name}" />
         <TextBlock Grid.Row="3" Grid.Column="0"  Margin="5, 10" Text="Elvégzett munkák, alkatrészek:" TextWrapping="Wrap" />
@@ -31,7 +31,7 @@
 
 
         <TextBlock Grid.Row="4" Grid.Column="0"  Margin="5" Text="Végösszeg:" />
-        <TextBlock Grid.Row="4" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.FinalPrice}" />
+        <TextBlock Grid.Row="4" Grid.Column="1"  Margin="5" Text="{Binding WorksheetUnderEdit.FinalPrice, StringFormat={}{0} HUF}" />
 
         <ListBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding WorksheetUnderEdit.Items}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -43,8 +43,8 @@
                             <ColumnDefinition Width="150*" />
                             <ColumnDefinition Width="50*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"  Text="{Binding Item}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Price}" />
+                        <TextBlock Grid.Column="0"  Text="{Binding Item}" Margin="0, 0, 10, 0" />
+                        <TextBlock Grid.Column="1" Text="{Binding Price, StringFormat={}{0} HUF}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -60,8 +60,8 @@
                                 <ColumnDefinition Width="150*" />
                                 <ColumnDefinition Width="50*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"  Text="{Binding Item}" />
-                            <TextBlock Grid.Column="1" Text="{Binding Price}" />
+                            <TextBlock Grid.Column="0"  Text="{Binding Item}" Margin="0, 0, 10, 0" />
+                            <TextBlock Grid.Column="1" Text="{Binding Price, StringFormat={}{0} HUF}" />
                         </Grid>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
