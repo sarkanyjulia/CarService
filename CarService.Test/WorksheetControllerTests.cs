@@ -135,7 +135,41 @@ namespace CarService.Test
             Assert.IsInstanceOf<UnauthorizedResult>(objectResult, result.GetType().ToString());
         }
 
+        [Test]
+        public void PostWorksheet_BadRequest()
+        {
+            // GIVEN
+            DateTime testTime = DateTime.Now.AddHours(1);
+            int testId = 1;
+            string testWorkType = "maintenance";
 
+            WorksheetDTO testData = new WorksheetDTO
+            {
+                Id = testId,
+                Appointment = new AppointmentDTO
+                {
+                    Id = testId,
+                    Time = testTime,
+                    WorkType = testWorkType,
+                    Partner = new UserDTO
+                    {
+                        Id = 3,
+                        Name = "Partner"
+                    }
+                },
+                Items = new List<WorkItemDTO>(),
+                FinalPrice = 0,
+                Closed = true
+            };
+            WorksheetsController underTest = new WorksheetsController(_context);
+            SetupUser(underTest, "mechanic123");
+            // WHEN
+            var result = underTest.PostWorksheet(testData);
+            // THEN
+            Assert.IsNotNull(result);
+            var badResult = result as BadRequestObjectResult;
+            Assert.IsInstanceOf<BadRequestObjectResult>(badResult, result.GetType().ToString());
+        }
 
         private void SetupUser(ControllerBase controller, string username)
         {
