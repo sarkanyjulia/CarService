@@ -30,11 +30,11 @@ namespace CarService.WebAPI.Controllers
         public IActionResult GetAppointments()
         {
             try
-            {                
-                List<int> appointmensHavingWorksheet = _context.Worksheets.Select(w => w.AppointmentId).ToList();
+            {                              
                 return Ok(_context.Appointments
                     .Include(a => a.Partner)
-                    .Where(a => a.Mechanic.UserName == User.Identity.Name && a.Time>= DateTime.Now.Date && !appointmensHavingWorksheet.Contains(a.Id))
+                    .Include(a => a.Worksheet)
+                    .Where(a => a.Mechanic.UserName == User.Identity.Name && a.Time>= DateTime.Now.Date && a.Worksheet==null)
                     .OrderBy(a => a.Time)
                     .ToList()
                     .Select(a => new AppointmentDTO

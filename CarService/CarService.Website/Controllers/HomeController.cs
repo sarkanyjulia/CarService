@@ -10,7 +10,7 @@ using CarService.Persistence;
 
 namespace CarService.Website.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "partner")]
     public class HomeController : BaseController
     {
 

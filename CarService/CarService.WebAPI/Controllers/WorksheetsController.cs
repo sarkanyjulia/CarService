@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarService.Data;
 using CarService.Persistence;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarService.WebAPI.Controllers
 {
@@ -32,7 +33,11 @@ namespace CarService.WebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            Appointment appointment = _context.Appointments.Find(worksheetDTO.Appointment.Id);
+            Appointment appointment = _context.Appointments.Include(a => a.Partner).Include(a => a.Mechanic).FirstOrDefault(a => a.Id==worksheetDTO.Appointment.Id);
+            if (appointment==null)
+            {
+                return BadRequest("Appointment doesn't exist.");
+            }
             if (!User.Identity.Name.Equals(appointment.Mechanic.UserName))
             {
                 return Unauthorized();
@@ -42,8 +47,7 @@ namespace CarService.WebAPI.Controllers
                 Worksheet worksheetToAdd = new Worksheet
                 {
                     AppointmentId = appointment.Id,
-                    Partner = appointment.Partner,
-                    Mechanic = appointment.Mechanic,
+                    Appointment = appointment,                    
                     FinalPrice = worksheetDTO.FinalPrice,                  
                 };
                 worksheetToAdd.Items = new List<WorksheetWorkItem>();
@@ -60,10 +64,23 @@ namespace CarService.WebAPI.Controllers
                 return CreatedAtAction("GetWorksheet", new { id = addedWorksheet.Entity.Id }, worksheetDTO);
             }
             catch
-            {
+            {                
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-                
+
+        [HttpGet]
+        public IActionResult GetWorksheet(int id)
+        {
+            try
+            {
+                return Ok(_context.Worksheets.Find(id));
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
+        }
     }
 }

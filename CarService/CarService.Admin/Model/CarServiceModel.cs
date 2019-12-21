@@ -47,34 +47,30 @@ namespace CarService.Admin.Model
         {
             AppointmentList = (await _persistence.GetAppointments()).ToList();
             ItemList = (await _persistence.GetWorkItems()).ToList();
-            if (Worksheets.Any())
-            {
-                foreach (WorksheetDTO worksheet in Worksheets)
-                {
-                    // TODO set flags
-                    // set view App list to read flags from model
-                }
-            }
+            Worksheets = new List<WorksheetDTO>();
         }
 
         public async Task<Boolean> SaveAsync()
         {
-            Boolean OK = true;
+            Boolean OK = true;            
             foreach (WorksheetDTO worksheet in Worksheets)
             {
                 if (worksheet.Closed)
                 { 
                     if (await _persistence.SaveWorksheetAsync(worksheet))
                     {
-                        Worksheets.Remove(worksheet);
+                        AppointmentList.Remove(worksheet.Appointment);                       
                     }
                     else
                     {
-                        OK = false;
-                        // TODO error message
+                        worksheet.Closed = false;
+                        worksheet.Appointment.HasClosedWorksheet = false;
+                        OK = false;                       
                     }
                 }
             }
+            Worksheets.RemoveAll(w => w.Closed);
+            
             return OK;
         }
     }

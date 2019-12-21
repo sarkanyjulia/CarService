@@ -25,6 +25,9 @@ namespace CarService.Persistence
 
         [Required]
         public AppUser Mechanic { get; set; }
+        
+
+        public  Worksheet Worksheet { get; set; }
          
     }
 }

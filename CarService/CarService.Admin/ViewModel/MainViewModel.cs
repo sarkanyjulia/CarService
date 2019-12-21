@@ -185,6 +185,12 @@ namespace CarService.Admin.ViewModel
 
         private async void SaveAsync()
         {
+            if (_model.Worksheets.All(w => !w.Closed))
+            {
+                OnMessageApplication("Nincs mentésre kijelölt munkalap.");
+            }
+            else
+            {
                 try
                 {
                     if (await _model.SaveAsync())
@@ -195,13 +201,16 @@ namespace CarService.Admin.ViewModel
                     {
                         OnMessageApplication("Néhány munkalap mentése nem sikerült.");
                     }
-                    LoadAsync();
                 }
                 catch (PersistenceUnavailableException)
                 {
                     OnMessageApplication("A mentés sikertelen! Nincs kapcsolat a kiszolgálóval.");
                 }
-            
+                finally
+                {
+                    Appointments = new ObservableCollection<AppointmentDTO>(_model.AppointmentList);
+                }
+            }
         }
 
         private void EditWorksheet(AppointmentDTO appointment)

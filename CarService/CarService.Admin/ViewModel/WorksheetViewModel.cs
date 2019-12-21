@@ -11,7 +11,7 @@ namespace CarService.Admin.ViewModel
         
         private int _finalPrice;
         private ObservableCollection<WorkItemDTO> _items;
-        private WorkItemDTO _selectedWorkItem;
+        //private WorkItemDTO _selectedWorkItem;
         private WorkItemDTO _selectedItemListItem;
 
         public AppointmentDTO Appointment { get; set; }
@@ -30,7 +30,7 @@ namespace CarService.Admin.ViewModel
                 }
             }
         }
-
+        /*
         public WorkItemDTO SelectedWorkItem
         {
             get { return _selectedWorkItem; }
@@ -42,7 +42,7 @@ namespace CarService.Admin.ViewModel
                     OnPropertyChanged();
                 }
             }
-        }
+        }*/
 
         public WorkItemDTO SelectedItemListItem
         {

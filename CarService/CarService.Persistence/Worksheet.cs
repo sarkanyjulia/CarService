@@ -8,19 +8,23 @@ namespace CarService.Persistence
 {
     public class Worksheet
     {
-        [Key]
+        [Key]        
         public int Id { get; set; }
-        
-        public int AppointmentId { get; set; }
 
+        [Required]
+        public int AppointmentId {get; set;}
+               
         public virtual Appointment Appointment { get; set; }
-
+        /*
+        [Required]
         public AppUser Partner { get; set; }
 
+        [Required]
         public AppUser Mechanic { get; set; }
+        */
+        public List<WorksheetWorkItem> Items { get; set; }
 
-        public List<WorksheetWorkItem> Items { get; set; }        
-
+        [Required]
         public int FinalPrice { get; set; }
 
     }
